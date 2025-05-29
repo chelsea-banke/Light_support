@@ -47,7 +47,7 @@ export default function LoginScreen() {
           <Text className="text-xs text-white mb-8">This is the description area</Text>
 
           {/* Login Button */}
-          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center">
+          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={() => { router.push("/consumer" as any) }}>
             <Text className="text-[#0f6da9] font-semibold">Login Into Your Account</Text>
           </TouchableOpacity>
 
