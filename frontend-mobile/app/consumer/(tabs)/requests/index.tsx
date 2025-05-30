@@ -1,5 +1,6 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function RequestsScreen() {
   const requests = [
@@ -45,7 +46,7 @@ export default function RequestsScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4">
+      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => {router.push("/consumer/create-new-request" as any)}}>
         <Text className="text-[#0f6da9] font-bold text-4xl mr-1">New</Text>
         <View className="bg-[#0f6da9] rounded-full p-4">
           <Feather name="plus" size={28} color="white"  />
@@ -57,7 +58,7 @@ export default function RequestsScreen() {
         {requests.map((req) => (
           <View
             key={req.id}
-            className="bg-white p-3 rounded-lg border border-b-2 border-gray-200 shadow-sm my-1"
+            className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
           >
             <View className="flex-row justify-between items-start mb-1">
               <Text className="font-semibold text-base text-black w-4/5">

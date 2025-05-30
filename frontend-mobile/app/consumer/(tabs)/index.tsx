@@ -7,6 +7,7 @@ import {
   Entypo,
   FontAwesome5,
 } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function DashboardScreen() {
   return (
@@ -31,7 +32,7 @@ export default function DashboardScreen() {
 
           {/* Request Support */}
           <Text className="text-center text-gray-700 mt-6">Having power issues ?</Text>
-          <TouchableOpacity className="bg-[#0f6da9] py-3 rounded-full items-center mt-6">
+          <TouchableOpacity className="bg-[#0f6da9] py-3 rounded-full items-center mt-6" onPress={() => {router.push("/consumer/create-new-request" as any)}}>
             <Text className="text-white font-semibold">Request Support</Text>
           </TouchableOpacity>
         </View>
@@ -42,7 +43,7 @@ export default function DashboardScreen() {
 
           <View className="items-center justify-center flex-1">
             <Image
-              source={require('../../assets/images/no-requests.png')} // Add your own illustration
+              source={require('../../../assets/images/no-requests.png')} // Add your own illustration
               className="w-44 h-44"
               resizeMode="contain"
             />
