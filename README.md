@@ -43,6 +43,8 @@ Traditional fault resolution processes in utility companies are often slow and f
 
 ---
 
-| Version | Date       | Notes                                  | APK Download links |
-| ------- | ---------- | -------------------------------------- | ------------------ |
-| v1.0.0  | 29-05-2025 | Initial development release            | [Download](https://expo.dev/artifacts/eas/rLvc4WksLQbxbHjoYUPt77.apk) |
+| Version | Date       | Notes                                    | APK Download links |
+| ------- | ---------- | ---------------------------------------- | ------------------ |
+| v1.0.0  | 29-05-2025 | Initial development release              | [Download](https://expo.dev/artifacts/eas/rLvc4WksLQbxbHjoYUPt77.apk) |
+| ------- | ---------- | ---------------------------------------- | ------------------ |
+| v1.1.0  | 30-05-2025 | Consumer main interfaces and navigation  | [Download](https://expo.dev/artifacts/eas/nCoxkChDmLMe3RZFfnQ1V3.apk) |
