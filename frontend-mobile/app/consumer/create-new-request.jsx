@@ -50,11 +50,7 @@ export default function NewRequestScreen() {
         </Text>
 
         {/* Submit Button */}
-        <TouchableOpacity className="bg-[#0f6da9] rounded-full py-4 items-center justify-center" onPress={() => {
-          router.push({
-            pathname: '/consumer/requests/chat'// Replace with actual request ID if needed
-          })}
-        }>
+        <TouchableOpacity className="bg-[#0f6da9] rounded-full py-4 items-center justify-center" onPress={() => {router.push(`/consumer/requests/${1}`);}}>
           <Text className="text-white font-semibold">Request Support</Text>
         </TouchableOpacity>
       </ScrollView>

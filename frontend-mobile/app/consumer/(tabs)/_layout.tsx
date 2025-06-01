@@ -19,17 +19,17 @@ export default function Layout() {
           height: 80,
         },
         header: ({options}) => (
-          <SafeAreaView className="flex-row items-center justify-between bg-[#0f6da9] px-4 py-3">
+          <SafeAreaView className="flex-row items-center justify-between bg-[#0f6da9] px-4 h-fit pt-4">
             <View className="flex-row items-center space-x-2">
               <Image
                 source={require('../../../assets/images/light-logo.png')}
                 className="w-8 h-8"
                 resizeMode="contain"
               />
-              <Text className="text-2xl font-bold text-[#d4e600]">{options.title ?? 'Light Support'}</Text>
+              <Text className="text-2xl font-bold text-[#d4e600]">{options.title === "Dashboard" ? 'Light Support' : options.title}</Text>
             </View>
             <TouchableOpacity onPress={() => {router.push("/consumer/notifications-modal" as any)}}>
-              <Ionicons name="notifications-outline" size={24} color="white" />
+              <Ionicons name="notifications-outline" size={28} color="white" />
             </TouchableOpacity>
           </SafeAreaView>
         )
@@ -38,8 +38,8 @@ export default function Layout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Light Support',
-          tabBarIcon: ({ color, size }) => <Entypo name="grid" size={size} color={color} />,
+          title: 'Dashboard',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="dashboard" size={size} color={color} />,
         }}
       />
       <Tabs.Screen

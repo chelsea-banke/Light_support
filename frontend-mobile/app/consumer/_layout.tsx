@@ -1,4 +1,4 @@
-import { Slot, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 
 export default function RootLayout() {
   return (
@@ -9,6 +9,9 @@ export default function RootLayout() {
         title: "Create New Request",
         headerStyle: { backgroundColor: '#0f6da9'},
         headerTintColor: '#fff' 
+      }} />
+      <Stack.Screen name="(nested)/requests/[id]" options={{
+        headerShown: false,
       }} />
     <Stack.Screen name="notifications-modal" options={{
         presentation: "modal",

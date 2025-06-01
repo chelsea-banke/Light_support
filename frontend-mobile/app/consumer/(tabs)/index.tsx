@@ -32,7 +32,7 @@ export default function DashboardScreen() {
 
           {/* Request Support */}
           <Text className="text-center text-gray-700 mt-6">Having power issues ?</Text>
-          <TouchableOpacity className="bg-[#0f6da9] py-3 rounded-full items-center mt-6" onPress={() => {router.push("/consumer/create-new-request" as any)}}>
+          <TouchableOpacity className="bg-[#0f6da9] py-3 rounded-full items-center mt-6" onPress={() => {router.push(`/consumer/requests/${1}` as any)}}>
             <Text className="text-white font-semibold">Request Support</Text>
           </TouchableOpacity>
         </View>

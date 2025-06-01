@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -46,7 +46,7 @@ export default function RequestsScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => {router.push("/consumer/create-new-request" as any)}}>
+      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => {router.push(`/consumer/requests/${1}` as any)}}>
         <Text className="text-[#0f6da9] font-bold text-4xl mr-1">New</Text>
         <View className="bg-[#0f6da9] rounded-full p-4">
           <Feather name="plus" size={28} color="white"  />
@@ -56,22 +56,24 @@ export default function RequestsScreen() {
       {/* List of Requests */}
       <ScrollView className="space-y-3">
         {requests.map((req) => (
-          <View
-            key={req.id}
-            className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
-          >
-            <View className="flex-row justify-between items-start mb-1">
-              <Text className="font-semibold text-base text-black w-4/5">
-                {req.title}
-              </Text>
-              <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-                {req.status}
+          <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${req.id}` as any)} key={req.id}>
+            <View
+              key={req.id}
+              className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
+            >
+              <View className="flex-row justify-between items-start mb-1">
+                <Text className="font-semibold text-base text-black w-4/5">
+                  {req.title}
+                </Text>
+                <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
+                  {req.status}
+                </Text>
+              </View>
+              <Text className="text-sm text-gray-700 leading-snug">
+                {req.description}
               </Text>
             </View>
-            <Text className="text-sm text-gray-700 leading-snug">
-              {req.description}
-            </Text>
-          </View>
+          </Pressable>
         ))}
       </ScrollView>
     </View>
