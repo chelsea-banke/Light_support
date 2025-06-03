@@ -1,8 +1,9 @@
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
-export default function RequestsScreen() {
-  const requests = [
+export default function TicketsScreen() {
+  const tickets = [
     {
       id: 1,
       title: 'Transformer down due to...',
@@ -45,32 +46,27 @@ export default function RequestsScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4">
-        <Text className="text-[#0f6da9] font-bold text-4xl mr-1">New</Text>
-        <View className="bg-[#0f6da9] rounded-full p-4">
-          <Feather name="plus" size={28} color="white"  />
-        </View>
-      </TouchableOpacity>
-
-      {/* List of Requests */}
+      {/* List of tickets */}
       <ScrollView className="space-y-3">
-        {requests.map((req) => (
-          <View
-            key={req.id}
-            className="bg-white p-3 rounded-lg border border-b-2 border-gray-200 shadow-sm my-1"
-          >
-            <View className="flex-row justify-between items-start mb-1">
-              <Text className="font-semibold text-base text-black w-4/5">
-                {req.title}
-              </Text>
-              <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-                {req.status}
+        {tickets.map((ticket) => (
+          <Pressable onPress={() => router.push(`/field-tech/(nested)/tickets/${ticket.id}` as any)} key={ticket.id}>
+            <View
+              key={ticket.id}
+              className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
+            >
+              <View className="flex-row justify-between items-start mb-1">
+                <Text className="font-semibold text-base text-black w-4/5">
+                  {ticket.title}
+                </Text>
+                <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
+                  {ticket.status}
+                </Text>
+              </View>
+              <Text className="text-sm text-gray-700 leading-snug">
+                {ticket.description}
               </Text>
             </View>
-            <Text className="text-sm text-gray-700 leading-snug">
-              {req.description}
-            </Text>
-          </View>
+          </Pressable>
         ))}
       </ScrollView>
     </View>

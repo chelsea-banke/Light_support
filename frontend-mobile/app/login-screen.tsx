@@ -59,6 +59,10 @@ export default function LoginScreen() {
           <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.push("/create-account-screen" as any)}}>
             <Text className="text-[#0f6da9] font-semibold">Create an Account</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity className="border-2 border-[#cce8ff] py-3 rounded-full items-center mt-5" onPress={()=>{router.push("/field-tech" as any)}}>
+            <Text className="text-[#cce8ff] font-semibold">Login As Field Tech</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

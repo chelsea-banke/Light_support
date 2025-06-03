@@ -4,13 +4,16 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="create-new-request" options={{
+      <Stack.Screen name="register-new-asset" options={{
         presentation: "modal",
-        title: "Create New Request",
+        title: "Register New Asset",
         headerStyle: { backgroundColor: '#0f6da9'},
         headerTintColor: '#fff' 
       }} />
-      <Stack.Screen name="(nested)/requests/[id]" options={{
+      <Stack.Screen name="(nested)/tickets/[id]" options={{
+        headerShown: false,
+      }} />
+      <Stack.Screen name="(nested)/assets/[id]" options={{
         headerShown: false,
       }} />
     <Stack.Screen name="notifications-modal" options={{
