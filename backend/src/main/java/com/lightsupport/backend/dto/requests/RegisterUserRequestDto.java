@@ -1,12 +1,5 @@
 package com.lightsupport.backend.dto.requests;
 
-import lombok.*;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class RegisterUserRequestDto {
     private String firstName;
     private String lastName;

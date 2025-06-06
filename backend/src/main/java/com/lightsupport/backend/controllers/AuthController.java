@@ -2,17 +2,16 @@ package com.lightsupport.backend.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lightsupport.backend.dto.requests.LoginRequestDto;
+import com.lightsupport.backend.dto.requests.LogoutRequestDto;
 import com.lightsupport.backend.dto.requests.RegisterUserRequestDto;
 import com.lightsupport.backend.dto.response.RegisterUserResponseDto;
 import com.lightsupport.backend.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -22,18 +21,19 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "Hello World";
-    }
-
-    @PostMapping("/auth/register-client")
+    @PostMapping("/register-client")
     public RegisterUserResponseDto registerClient(@RequestBody RegisterUserRequestDto registerUserRequest) {
         return authService.registerUser(registerUserRequest);
     }
 
-    @PostMapping("/auth/client-login")
+    @PostMapping("/client-login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) throws JsonProcessingException {
-        return authService.clientLogin(loginRequest);
+        return ResponseEntity.ok(authService.clientLogin(loginRequest));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody LogoutRequestDto logoutRequest) throws JsonProcessingException {
+        authService.logout(logoutRequest);
+        return ResponseEntity.ok("ok");
     }
 }

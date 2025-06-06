@@ -1,5 +1,4 @@
-// src/main/java/com/example/dto/ApiError.java
-package com.lightsupport.main.dto;
+package com.lightsupport.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -1,12 +1,5 @@
 package com.lightsupport.backend.dto.response;
 
-import lombok.*;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class RegisterUserResponseDto {
     private String id;
     private String firstName;

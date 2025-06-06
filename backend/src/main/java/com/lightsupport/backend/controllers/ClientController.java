@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/client")
 public class ClientController {
     private final FaultService faultService;
 
@@ -15,15 +16,10 @@ public class ClientController {
         this.faultService = faultService;
     }
 
-    @PostMapping("/client/create-fault")
+    @PostMapping("/create-fault")
     public ResponseEntity<?> createFault(@RequestBody final CreateFaultRequestDto createFaultRequestDto, Authentication authentication) {
         String clientId = authentication.getName();
         System.out.println(clientId);
         return faultService.createFault(clientId, createFaultRequestDto);
-    }
-
-    @GetMapping("/client")
-    public ResponseEntity<?> getClient() {
-        return ResponseEntity.ok("hello world");
     }
 }

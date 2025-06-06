@@ -1,6 +1,6 @@
 package com.lightsupport.backend.configs;
 
-import com.lightsupport.main.dto.ApiErrorDto;
+import com.lightsupport.backend.dto.ApiErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,8 +52,6 @@ public class GlobalExceptionHandler {
                 path
         );
 
-        // Log the exception details here for debugging
-        // logger.error("Internal Server Error", ex);
         return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

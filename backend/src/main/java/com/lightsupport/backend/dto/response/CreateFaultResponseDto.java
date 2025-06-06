@@ -1,7 +1,5 @@
 package com.lightsupport.backend.dto.response;
 
-import com.lightsupport.backend.models.User;
-
 import java.time.LocalDate;
 
 public class CreateFaultResponseDto {
