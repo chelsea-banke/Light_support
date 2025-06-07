@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Pressable } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function TicketDetailsScreen() {
+export default function TicketDetailsModal() {
   const router = useRouter();
 
   return (

@@ -27,7 +27,7 @@ export default function NewsScreen() {
           {/* Image */}
           <View className="w-16 h-16 bg-gray-300 rounded mr-4 items-center justify-center">
             <Image
-              source={require("../../../../assets/images/image-placeholder.png")} // Replace with your image or icon
+              source={require("../../../assets/images/image-placeholder.png")} // Replace with your image or icon
               className="w-8 h-8"
               resizeMode="contain"
             />

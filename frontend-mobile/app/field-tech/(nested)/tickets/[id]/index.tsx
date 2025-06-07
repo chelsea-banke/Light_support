@@ -11,7 +11,7 @@ type Message = {
   };
 };
 
-const Home = () => {
+export default function TicketChatScreen(){
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -83,6 +83,4 @@ const Home = () => {
       // onEndReached={() => alert("You have reached the end of the page")}
     />
   );
-};
-
-export default Home;
+}

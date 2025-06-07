@@ -56,7 +56,7 @@ export default function LoginScreen() {
             or don’t have an account ?
           </Text>
 
-          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.push("/create-account-screen" as any)}}>
+          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.push("/create-account" as any)}}>
             <Text className="text-[#0f6da9] font-semibold">Create an Account</Text>
           </TouchableOpacity>
 

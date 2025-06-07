@@ -3,8 +3,9 @@ import { View, Text, ScrollView, Pressable } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function RequestDetailsLayout() {
+export default function TicketLayout() {
   const id = useLocalSearchParams().id;
 
   return (
@@ -26,7 +27,7 @@ export default function RequestDetailsLayout() {
         options={{
           title: 'Request',
           header: ({ options }) => (
-            <View className="flex-row items-center justify-between bg-[#0f6da9] px-4 pt-16 pb-5">
+            <SafeAreaView className="flex-row justify-between bg-[#0f6da9] py-4 px-4" edges={['top', 'left', 'right']}>
               <View className="flex-row gap-3">
                 <Pressable onPress={() => router.back()}>
                   <Ionicons name="arrow-back" size={24} color="white" />
@@ -37,7 +38,7 @@ export default function RequestDetailsLayout() {
                 <Text className="text-xs text-[#0f6da9] font-semibold text-center bg-[#a8ca38] px-2 py-1 rounded-full w-16 mt-1">ongoing</Text>
                 <Feather name="info" size={24} color="white" />
               </Pressable>
-            </View>
+            </SafeAreaView>
           )
         }} />
     </Stack>

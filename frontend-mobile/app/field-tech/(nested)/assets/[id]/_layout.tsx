@@ -1,5 +1,6 @@
 import { router, Stack, useLocalSearchParams, useSegments } from 'expo-router';
 import { View, Text, ScrollView, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,16 +26,25 @@ export default function AssetsLayout() {
         name="index"
         options={{
           title: 'Request',
-          header: ({ options }) => (
-            <View className="flex-row items-center justify-between bg-[#0f6da9] px-4 pt-16 pb-5">
-              <View className="flex-row gap-3">
+          header: () => (
+            <SafeAreaView
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: '#0f6da9',
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+              }}
+              edges={['top', 'left', 'right']}
+            >
+              <View style={{ flexDirection: 'row', gap: 12 }} className='items-center'>
                 <Pressable onPress={() => router.back()}>
                   <Ionicons name="arrow-back" size={24} color="white" />
                 </Pressable>
-                <Text className="text-white font-semibold text-2xl">Ticket {id}</Text>
+                <Text style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>Ticket {id}</Text>
               </View>
-            </View>
-          )
+            </SafeAreaView>
+          ),
         }} />
     </Stack>
   );

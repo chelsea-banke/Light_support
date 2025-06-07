@@ -16,7 +16,7 @@ export default function RootLayout() {
       <Stack.Screen name="(nested)/assets/[id]" options={{
         headerShown: false,
       }} />
-    <Stack.Screen name="notifications-modal" options={{
+    <Stack.Screen name="notifications" options={{
         presentation: "modal",
         title: "Notifications",
         headerStyle: { backgroundColor: '#0f6da9'},

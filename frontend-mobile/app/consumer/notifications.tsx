@@ -14,7 +14,7 @@ const notifications = [
   // Add more items here if needed
 ];
 
-export default function NotificationModal () {
+export default function NotificationsModal () {
   const router = useRouter();
 
   return (

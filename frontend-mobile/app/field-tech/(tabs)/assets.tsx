@@ -55,7 +55,7 @@ export default function AssetsScreen() {
       <ScrollView className="space-y-3">
         {tickets.map((ticket) => (
           <Pressable className='mb-3' onPress={() => router.push(`/field-tech/assets/${ticket.id}` as any)} key={ticket.id}>
-            <Text className='text-sm bg-gray-600 w-20 rounded-t text-white text-center'>{ticket.type}</Text>
+            <Text className='text-sm bg-gray-600 rounded-t text-white text-left px-4'>{ticket.type}</Text>
             <View
               key={ticket.id}
               className="bg-white p-3 rounded rounded-tr-none border-t border-gray-600 flex flex-row justify-between items-center"

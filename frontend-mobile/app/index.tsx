@@ -41,7 +41,7 @@ export default function WelcomeScreen() {
 
       {/* Buttons Section */}
       <View className="absolute bg-[r#0f6da9] py-28 bottom-20 bottom-[0%] w-full px-6 z-20">
-        <TouchableOpacity className="bg-[#cce8ff] py-3  w-[80%] m-auto rounded-full items-center" onPress={()=>{router.push("/login-screen")}}>
+        <TouchableOpacity className="bg-[#cce8ff] py-3  w-[80%] m-auto rounded-full items-center" onPress={()=>{router.push("/login" as any)}}>
           <Text className="text-[#0f6da9] font-semibold">Login Into Your Account</Text>
         </TouchableOpacity>
 
@@ -49,7 +49,7 @@ export default function WelcomeScreen() {
           or don’t have an account ?
         </Text>
 
-        <TouchableOpacity className="bg-[#cce8ff] py-3 w-[80%] m-auto rounded-full items-center" onPress={()=>{router.push("/create-account-screen" as any)}}>
+        <TouchableOpacity className="bg-[#cce8ff] py-3 w-[80%] m-auto rounded-full items-center" onPress={()=>{router.push("/create-account" as any)}}>
           <Text className="text-[#0f6da9] font-semibold">Create an Account</Text>
         </TouchableOpacity>
       </View>

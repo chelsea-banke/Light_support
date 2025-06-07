@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function VerificationCompleteScreen() {
+export default function VerificationScreen() {
   return (
     <SafeAreaView className="h-full flex-start justify-center bg-[#0f6da9]">
           <Image
@@ -15,7 +15,7 @@ export default function VerificationCompleteScreen() {
             A verification message has been sent to your email, Follow the steps that follows in it and login to your accout
           </Text>
           {/* Login Button */}
-          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center w-[80%] mx-auto mt-5" onPress={()=>{router.replace("/login-screen")}}>
+          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center w-[80%] mx-auto mt-5" onPress={()=>{router.replace("/login")}}>
             <Text className="text-[#0f6da9] font-semibold">Login Into Your Account</Text>
           </TouchableOpacity>
     </SafeAreaView>

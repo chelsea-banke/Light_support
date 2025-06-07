@@ -70,7 +70,7 @@ export default function CreateAccountScreen() {
           <Text className="text-xs text-white mb-8">This is the description area</Text>
 
           {/* Login Button */}
-          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.replace("/verification-screen")}}>
+          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.replace("/verification")}}>
             <Text className="text-[#0f6da9] font-semibold">Create Your Account</Text>
           </TouchableOpacity>
 
@@ -79,7 +79,7 @@ export default function CreateAccountScreen() {
             or already have an account ?
           </Text>
 
-          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.push("/login-screen")}}>
+          <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={()=>{router.push("/login")}}>
             <Text className="text-[#0f6da9] font-semibold">Login Into Your Account</Text>
           </TouchableOpacity>
         </View>
