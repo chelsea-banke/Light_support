@@ -1,16 +1,18 @@
 import { Stack } from "expo-router";
 import { Provider } from 'react-redux'
-import { store } from "../redux/store"
+import { persistor, store } from "../redux/store"
+import { PersistGate } from "redux-persist/integration/react";
+import { ActivityIndicator } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return(
     <Provider store={store}>
-      <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="index"/>
-        <Stack.Screen name="create-account"/>
-        <Stack.Screen name="logins"/>
-        <Stack.Screen name="verification"/>
-      </Stack>
+      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+        <SafeAreaProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </SafeAreaProvider>
+      </PersistGate>
     </Provider>
   )
 }

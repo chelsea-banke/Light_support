@@ -22,7 +22,7 @@ export default function Layout() {
           <SafeAreaView className="flex-row justify-between bg-[#0f6da9] py-3 px-4" edges={['top', 'left', 'right']}>
             <View className="flex-row items-center space-x-2">
               <Image
-                source={require('../../../assets/images/light-logo.png')}
+                source={require('../../../../assets/images/light-logo.png')}
                 className="w-10 h-10"
                 resizeMode="contain"
               />

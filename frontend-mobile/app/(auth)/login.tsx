@@ -5,22 +5,43 @@ import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, StatusBar }
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
+import AlertBox from '@/components/alert-box';
 
 export default function LoginScreen() {
     // State for input fields
     const [contact, setContact] = React.useState('');
     const [password, setPassword] = React.useState('');
+
+    const [alertData, setAlertData] = React.useState({
+        title: '',
+        body: '',
+        visibility: false
+    })
+
     const dispatch = useDispatch<AppDispatch>();
     
 
     const handleLogin = async () => {
-      if (!contact || !password) {
-        alert("Please fill in all fields.")
-      }
-      const results = await dispatch(loginUser({ contact, password }))
-      if(loginUser.fulfilled.match(results)) {
-        router.push("/consumer" as any)
-      }
+        if (!contact || !password) {
+            setAlertData({...alertData,
+                title: "Empty Login Fields",
+                visibility: true,
+                body: "make sure you correctly filled every field on the form"
+            })
+        }
+        else{
+            const results = await dispatch(loginUser({ contact, password }))
+            if(loginUser.fulfilled.match(results)) {
+                router.push("/consumer" as any)
+            }
+            else{
+                setAlertData({...alertData,
+                    title: "Invalid Login Credentials",
+                    visibility: true,
+                    body: "make sure you filled the form with your valid account credentials or create an account if you don't yet have one"
+                })
+            }
+        }
     }
 
     return (
@@ -29,7 +50,7 @@ export default function LoginScreen() {
                 {/* Header with logo and text */}
                 <View className="mb-6 flex-row">
                     <Image
-                        source={require('../assets/images/light-logo.png')} // Your asset here
+                        source={require('../../assets/images/light-logo.png')} // Your asset here
                         className="w-[150px] h-[150px]"
                         resizeMode="contain"
                     />
@@ -88,6 +109,14 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+
+            <AlertBox
+                title={alertData.title}
+                body={alertData.body}
+                visible={alertData.visibility}
+                onOk={() => {setAlertData({...alertData, visibility: false})}}
+                onCancel={() => {setAlertData({...alertData, visibility: false})}}
+            />
         </View>
     );
 }

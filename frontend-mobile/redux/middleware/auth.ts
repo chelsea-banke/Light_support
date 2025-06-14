@@ -1,13 +1,12 @@
 import axiosInstance from '@/utils/axiosInstance'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { secureStore } from '@/utils/secure-store'
 
 // Mock user type — keep in sync with userSlice
 export type User = {
     fistName: string
     lastName: string
     contact: string
-    accessToken: string
-    refreshToken: string
 }
 
 // Login Thunk
@@ -17,7 +16,9 @@ export const loginUser = createAsyncThunk<
     { rejectValue: string }
 >('user/loginUser', async ({ contact, password }, thunkAPI) => {
     return await axiosInstance.post('/auth/client-login', { contact, password })
-        .then((response) => {
+        .then(async (response) => {
+            secureStore.setAccessToken(response.data.accessToken)
+            secureStore.setRefreshToken(response.data.refreshToken)
             return response.data
         })
         .catch((error) => {
@@ -36,6 +37,15 @@ export const loginUser = createAsyncThunk<
 
 // Logout Thunk
 export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
-    await new Promise((res) => setTimeout(res, 500)) // Simulate async call
-    return
+    return await axiosInstance.post('/auth/logout', {
+        "refreshToken": await secureStore.getRefreshToken()
+    })
+    .then(async () => {
+        await secureStore.clearAllTokens()
+        return true
+    })
+    .catch((error) => {
+        console.error('Logout error:', error)
+        throw new Error('Logout failed')
+    })
 })

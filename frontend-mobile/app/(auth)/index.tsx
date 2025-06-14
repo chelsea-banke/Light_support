@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StatusBar, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import "../global.css"
+import "../../global.css"
 import { router } from 'expo-router';
 
 export default function WelcomeScreen() {
@@ -12,7 +12,7 @@ export default function WelcomeScreen() {
       <View className="items-center h-[50%] mt-20">
         {/* Placeholder for light bulb headset icon */}
         <Image
-          source={require('../assets/images/light-logo.png')} // Replace with your actual image path
+          source={require('../../assets/images/light-logo.png')} // Replace with your actual image path
           className="w-100 h-100"
           resizeMode="contain"
         />
@@ -25,7 +25,7 @@ export default function WelcomeScreen() {
         <Text className="mt-1 text-base">By</Text>
 
         <Image
-          source={require("../assets/images/eneo-logo.png")} // Replace with your actual logo
+          source={require("../../assets/images/eneo-logo.png")} // Replace with your actual logo
           className="w-[150px] h-[150px] mt-[-50px]"
           resizeMode="contain"
         />

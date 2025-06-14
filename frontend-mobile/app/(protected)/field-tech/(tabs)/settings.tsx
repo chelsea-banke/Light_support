@@ -22,7 +22,7 @@ export default function SettingsScreen() {
       <View className="bg-white px-6 pb-4 pt-6 items-center flex-row m-auto h-[20%]">
         <View className="w-32 h-32 rounded-full border-4 border-lime-400 items-center justify-center mb-3">
           <Image
-            source={require('../../../assets/images/image-placeholder.png')} // Replace with your asset
+            source={require('../../../../assets/images/image-placeholder.png')} // Replace with your asset
             className="w-10 h-10"
             resizeMode="contain"
           />

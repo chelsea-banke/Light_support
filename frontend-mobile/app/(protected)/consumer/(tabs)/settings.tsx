@@ -3,12 +3,17 @@ import { View, Text, Image, TouchableOpacity, Switch, Pressable } from 'react-na
 import { SelectList } from 'react-native-dropdown-select-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { EvilIcons, FontAwesome, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '@/redux/middleware/auth';
+import type { AppDispatch } from '@/redux/store';
 
 
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationSharingEnabled, setLocationSharingEnabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const dispatch = useDispatch<AppDispatch>();
 
   const languages = [
     { key: '1', value: 'English' },
@@ -16,13 +21,17 @@ export default function SettingsScreen() {
     { key: '3', value: 'French' },
   ];
 
+  const handleLogout = () => {
+    dispatch(logoutUser())
+  }
+
   return (
     <View className="flex-1 h-full bg-white mb-[-100px]">
       {/* Profile Info */}
       <View className="bg-white px-6 pb-4 pt-6 items-center flex-row m-auto h-[20%]">
         <View className="w-32 h-32 rounded-full border-4 border-lime-400 items-center justify-center mb-3">
           <Image
-            source={require('../../../assets/images/image-placeholder.png')} // Replace with your asset
+            source={require('../../../../assets/images/image-placeholder.png')} // Replace with your asset
             className="w-10 h-10"
             resizeMode="contain"
           />
@@ -34,6 +43,9 @@ export default function SettingsScreen() {
           </View>
           <Text className="text-gray-500">johndoe@gmail.com</Text>
         </View>
+        <TouchableOpacity className="border-2 border-[#106ea9] py-2 rounded-full items-center mt-5 w-1/4" onPress={() => { handleLogout() }}>
+            <Text className="text-[#106ea9] font-semibold">Logout</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Settings Panel */}
@@ -102,4 +114,3 @@ export default function SettingsScreen() {
     </View>
   );
 }
-

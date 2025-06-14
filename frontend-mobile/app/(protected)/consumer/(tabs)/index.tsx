@@ -1,12 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  Ionicons,
-  MaterialIcons,
-  Entypo,
-  FontAwesome5,
-} from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 export default function DashboardScreen() {
@@ -43,7 +37,7 @@ export default function DashboardScreen() {
 
           <View className="items-center justify-center flex-1">
             <Image
-              source={require('../../../assets/images/no-requests.png')} // Add your own illustration
+              source={require('../../../../assets/images/no-requests.png')} // Add your own illustration
               className="w-44 h-44"
               resizeMode="contain"
             />

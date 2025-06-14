@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import auth from '../services/auth'
+import auth from '../../services/auth'
 
 export default function CreateAccountScreen() {
 
@@ -40,7 +40,7 @@ export default function CreateAccountScreen() {
           {/* Header with logo and text */}
           <View className="mb-6 flex-row">
             <Image
-              source={require('../assets/images/light-logo.png')} // Your asset here
+              source={require('../../assets/images/light-logo.png')} // Your asset here
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />

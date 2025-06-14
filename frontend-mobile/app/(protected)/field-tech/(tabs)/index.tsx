@@ -42,7 +42,7 @@ export default function DashboardScreen() {
 
           <View className="items-center justify-center flex-1">
             <Image
-              source={require('../../../assets/images/no-requests.png')} // Add your own illustration
+              source={require('../../../../assets/images/no-requests.png')} // Add your own illustration
               className="w-44 h-44"
               resizeMode="contain"
             />

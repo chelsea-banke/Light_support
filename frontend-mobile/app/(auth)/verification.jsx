@@ -7,7 +7,7 @@ export default function VerificationScreen() {
   return (
     <SafeAreaView className="h-full flex-start justify-center bg-[#0f6da9]">
           <Image
-            source={require('../assets/images/verified-account-illustration.png')} // Your asset here
+            source={require('../../assets/images/verified-account-illustration.png')} // Your asset here
             className="w-[250px] h-[250px] mx-auto mt-[-100px]"
             resizeMode="contain"
           />

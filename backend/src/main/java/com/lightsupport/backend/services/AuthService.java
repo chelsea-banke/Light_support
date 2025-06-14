@@ -92,7 +92,7 @@ public class AuthService {
         // 4. Persist refresh token in DB
         LocalDate expiryDate = Instant.now().plusSeconds(604800).atZone(ZoneId.systemDefault()).toLocalDate();
         RefreshToken rt = new RefreshToken(user, refreshToken, LocalDate.now(), expiryDate);
-//        refreshTokenRepo.save(rt);
+        refreshTokenRepo.save(rt);
 
         // 5. Return both tokens to client
         LoginResponseDto loginResponseDto = modelMapper.map(user, LoginResponseDto.class);
@@ -135,6 +135,7 @@ public class AuthService {
     @Transactional
     public void logout(LogoutRequestDto request) {
         String rtString = request.getRefreshToken();
+        System.out.println(rtString);
         refreshTokenRepo.deleteByToken(rtString);
     }
 }
