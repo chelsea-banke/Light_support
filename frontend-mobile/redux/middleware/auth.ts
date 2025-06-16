@@ -1,13 +1,8 @@
 import axiosInstance from '@/utils/axiosInstance'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { secureStore } from '@/utils/secure-store'
-
-// Mock user type — keep in sync with userSlice
-export type User = {
-    fistName: string
-    lastName: string
-    contact: string
-}
+import { router } from 'expo-router'
+import { User } from '../interfaces'
 
 // Login Thunk
 export const loginUser = createAsyncThunk<

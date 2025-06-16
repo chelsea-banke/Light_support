@@ -6,40 +6,39 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import AlertBox from '@/components/alert-box';
+import { getFaults } from '@/redux/middleware/faults-middleware';
+import { useGlobalAlert } from '@/hooks/alert-hook';
 
 export default function LoginScreen() {
     // State for input fields
     const [contact, setContact] = React.useState('');
     const [password, setPassword] = React.useState('');
-
-    const [alertData, setAlertData] = React.useState({
-        title: '',
-        body: '',
-        visibility: false
-    })
+    const alert = useGlobalAlert();
 
     const dispatch = useDispatch<AppDispatch>();
     
 
     const handleLogin = async () => {
         if (!contact || !password) {
-            setAlertData({...alertData,
-                title: "Empty Login Fields",
-                visibility: true,
-                body: "make sure you correctly filled every field on the form"
-            })
+            alert.showAlert(
+                "error",
+                "Empty Login Fields",
+                "Make sure you correctly filled every field on the form"
+            );
+
         }
         else{
             const results = await dispatch(loginUser({ contact, password }))
             if(loginUser.fulfilled.match(results)) {
+                await dispatch(getFaults())
                 router.push("/consumer" as any)
             }
             else{
-                setAlertData({...alertData,
-                    title: "Invalid Login Credentials",
-                    visibility: true,
-                    body: "make sure you filled the form with your valid account credentials or create an account if you don't yet have one"
-                })
+                alert.showAlert(
+                    "error",
+                    "Invalid Login Credentials",
+                    "make sure you filled the form with your valid account credentials or create an account if you don't yet have one"
+                );
             }
         }
     }
@@ -109,14 +108,6 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-
-            <AlertBox
-                title={alertData.title}
-                body={alertData.body}
-                visible={alertData.visibility}
-                onOk={() => {setAlertData({...alertData, visibility: false})}}
-                onCancel={() => {setAlertData({...alertData, visibility: false})}}
-            />
         </View>
     );
 }

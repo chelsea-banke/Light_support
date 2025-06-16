@@ -4,15 +4,17 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { EvilIcons, FontAwesome, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '@/redux/middleware/auth';
-import type { AppDispatch } from '@/redux/store';
+import type { AppDispatch, RootState } from '@/redux/store';
 
 
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationSharingEnabled, setLocationSharingEnabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+
+  const userState = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch<AppDispatch>();
 
   const languages = [
@@ -38,10 +40,10 @@ export default function SettingsScreen() {
         </View>
         <View className='ml-4 flex-1'>
           <View className="flex-row items-center space-x-1">
-            <Text className="text-lg font-semibold">John Doe</Text>
+            <Text className="text-lg font-semibold">`{userState.user?.firstName} {userState.user?.lastName}`</Text>
             <AntDesign name="edit" size={24} color="black" />
           </View>
-          <Text className="text-gray-500">johndoe@gmail.com</Text>
+          <Text className="text-gray-500">{userState.user?.contact}</Text>
         </View>
         <TouchableOpacity className="border-2 border-[#106ea9] py-2 rounded-full items-center mt-5 w-1/4" onPress={() => { handleLogout() }}>
             <Text className="text-[#106ea9] font-semibold">Logout</Text>

@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config
 
         if (
-            error.response?.status === 401 &&
+            error.response?.status === 403 &&
             !originalRequest._retry &&
             !originalRequest.url.includes('/auth/refresh')
         ) {

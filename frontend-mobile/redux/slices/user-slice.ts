@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { loginUser, logoutUser, User } from "../middleware/auth"
+import { loginUser, logoutUser} from "../middleware/auth"
+import { User } from '../interfaces'
 
 type UserState = {
     user: User | null

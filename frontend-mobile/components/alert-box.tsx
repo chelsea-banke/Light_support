@@ -15,6 +15,7 @@ interface AlertProps {
 }
 
 const AlertBox: React.FC<AlertProps> = ({
+    type = '',
     title = '',
     body = '',
     visible,
@@ -30,10 +31,17 @@ const AlertBox: React.FC<AlertProps> = ({
             useNativeDriver
         >
             <View style={styles.container}>
-                {title ? <Text style={styles.title}>{title}</Text> : null}
+                {title ?
+                    <Text style={[styles.title, {backgroundColor: `${
+                        type === 'error'? '#ff6467' :
+                        type === 'success'? '#7b9d00' :
+                        type === 'info'? '#106ea9' :'transparent'}`}]}>
+                            {title}
+                    </Text> 
+                : null}
 
                 <ScrollView style={styles.bodyContainer}>
-                    <Text style={styles.bodyText}>{body}</Text>
+                    <Text style={[styles.bodyText]}>{body}</Text>
                 </ScrollView>
 
                 <View style={styles.footer}>
@@ -69,7 +77,6 @@ const styles = StyleSheet.create({
         borderBottomColor: "gray",
         paddingHorizontal: 20,
         paddingVertical: 10,
-        backgroundColor: "#ff6467",
     },
     bodyContainer: {
         maxHeight: 200,

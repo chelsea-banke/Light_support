@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/client")
+@RequestMapping("/client")
 public class ClientController {
     private final FaultService faultService;
 

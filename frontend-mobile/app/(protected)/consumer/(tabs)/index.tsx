@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '@/redux/store';
+import { getFaults } from '@/redux/middleware/faults-middleware';
 
 export default function DashboardScreen() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getFaults());
+  }, [dispatch]);
+
+  const faultsState = useSelector((state: RootState) => state.faults)
+  
   return (
     <View className="flex-1 bg-[#0f6da9]">
-        {/* Welcome + Stats */}
+        {/* Welcome + Stats */}1234567
         <View className="bg-[#cce8ff] px-4 py-6">
           <Text className="text-xl font-bold text-gray-800">
             Welcome to your{"\n"}support Dashboard
@@ -15,11 +26,15 @@ export default function DashboardScreen() {
           {/* Stat Boxes */}
           <View className="flex-row justify-between mt-6 space-x-4 relative">
             <View className="flex-1 items-center bg-white py-4 rounded-lg mr-2">
-              <Text className="text-2xl font-bold text-[#0f6da9]">00</Text>
+              <Text className="text-2xl font-bold text-[#0f6da9]">
+                {faultsState.faults.length}
+              </Text>
               <Text className="text-xs mt-1 text-gray-700">Requested support</Text>
             </View>
             <View className="flex-1 items-center bg-white py-4 rounded-lg ml-2">
-              <Text className="text-2xl font-bold text-[#0f6da9]">00</Text>
+              <Text className="text-2xl font-bold text-[#0f6da9]">
+                {faultsState.faults.filter(f => f.status === 'resolved').length}
+              </Text>
               <Text className="text-xs mt-1 text-gray-700">Resolved requests</Text>
             </View>
           </View>
