@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Chat from "@codsod/react-native-chat";
+import { useLocalSearchParams } from "expo-router";
+import messagingService from "@/services/messaging-service";
+import wsService from "@/services/ws-service";
+import bg from "@/assets/images/chat-wallpaper.jpg";
 
 type Message = {
   _id: number;
@@ -11,45 +15,56 @@ type Message = {
   };
 };
 
-const Home = () => {
+const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const { id } = useLocalSearchParams();
+
+  const formatMessage = (msg: any) => {
+    return {
+      _id: msg.id,
+      text: msg.content,
+      createdAt: new Date(),
+      user: {
+        _id: msg.type === "sent" ? 1 : 2,
+        name: "John Doe",
+      },
+    };
+  }
+
+  const fetchMessages = async () => {
+    try {
+      const msges = await messagingService.getMessages(id);
+      setMessages(
+        msges.map((msg: any) => {
+          return formatMessage(msg);
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hey!",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "CodSod",
-        },
-      },
-      {
-        _id: 2,
-        text: "Hello CodSod",
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: "Vishal Chaturvedi",
-        },
-      },
-    ]);
+    fetchMessages()
+    wsService.connectWebSocket(id, (msg) => {
+      setMessages((prev) => [
+        ...prev,
+        formatMessage(msg)
+      ]);
+    }, 
+    (error) => {
+      console.error("WebSocket error:", error);
+    });
+    return () => {
+      wsService.disconnectWebSocket();
+    };
   }, []);
 
   const onSendMessage = (text: string) => {
-    setMessages((prevMessages: any) => [
-      {
-        _id: prevMessages.length + 1,
-        text,
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: "Vishu Chaturvedi",
-        },
-      },
-      ...prevMessages,
-    ]);
+    wsService.sendMessage({
+      "content": text,
+      "chatId": id,
+    })
   };
 
   return (
@@ -71,9 +86,8 @@ const Home = () => {
       inputBackgroundColor="white"
       placeholder="Enter Your Message"
       placeholderColor="gray"
-      // backgroundImage={
-      //   "https://fastly.picsum.photos/id/54/3264/2176.jpg?hmac=blh020fMeJ5Ru0p-fmXUaOAeYnxpOPHnhJojpzPLN3g"
-      // }
+      // "https://fastly.picsum.photos/id/54/3264/2176.jpg?hmac=blh020fMeJ5Ru0p-fmXUaOAeYnxpOPHnhJojpzPLN3g"
+      backgroundImage={bg}
       showEmoji={true}
       onPressEmoji={() => console.log("Emoji Button Pressed..")}
       showAttachment={true}
@@ -85,4 +99,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ChatScreen;

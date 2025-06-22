@@ -24,11 +24,8 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <AlertContext.Provider value={{ showAlert }}>
             {children}
-            <AlertBox type={alertData.type} visible={alertData.visibility} title={alertData.title} body={alertData.body} 
-                onOk={()=>{
-                    alertData.onClear()
-                    hideAlert()
-                }}
+            <AlertBox type={alertData.type} visible={alertData.visibility} title={alertData.title} body={alertData.body}
+                onOk={hideAlert}
                 onCancel={hideAlert}
                 onDismiss={hideAlert}
             />

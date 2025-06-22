@@ -14,10 +14,9 @@ export default function DashboardScreen() {
   }, [dispatch]);
 
   const faultsState = useSelector((state: RootState) => state.faults)
-  
   return (
     <View className="flex-1 bg-[#0f6da9]">
-        {/* Welcome + Stats */}1234567
+        {/* Welcome + Stats */}
         <View className="bg-[#cce8ff] px-4 py-6">
           <Text className="text-xl font-bold text-gray-800">
             Welcome to your{"\n"}support Dashboard

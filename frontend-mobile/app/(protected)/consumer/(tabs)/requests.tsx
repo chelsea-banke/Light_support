@@ -1,9 +1,51 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import stomp from '@/services/stomp-service';
+import wsService from '@/services/ws-service';
+import faultService from '@/services/fault-service';
+import { useGlobalAlert } from '@/hooks/alert-hook';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+  
+export default function faultuestsScreen() {
+  const [messages, setMessages] = useState<any[]>([])
+  const alert = useGlobalAlert();
+  const faultsState = useSelector((state: RootState) => state.faults)
 
-export default function RequestsScreen() {
-  const requests = [
+  // useEffect(() => {
+  // 	console.log("Connecting to STOMP...");
+  // 	wsService.connectWebSocket((msg) => {
+  // 		setMessages((prev) => [...prev, msg]);
+  // 	}, (error) => {
+  // 		console.error("WebSocket error:", error);
+  // 	});
+  // 	return () => {
+  // 		console.log("Disconnecting from STOMP...");
+  // 		stomp.disconnectStomp()
+  // 	}
+  // }, [])
+
+  const handleSend = async () => {
+    // wsService.sendMessage("Hello from React Native!");
+    // stomp.sendMessage({ content: 'echo', sender: 'user1' })
+    // router.push(`/consumer/faultuests/${1}` as any)
+    try {
+      const response = await faultService.createFault({
+        description: 'Transformer is not responding'
+      });
+        router.push(`/consumer/faultuests/${response.id}` as any);
+    } catch (error) {
+      alert.showAlert(
+        "error",
+        "Error creating fault.",
+        "Please try again later or contact support if the issue persists."
+      );
+    }
+  };
+
+  const faultuests = [
     {
       id: 1,
       title: 'Transformer down due to...',
@@ -46,31 +88,31 @@ export default function RequestsScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => {router.push(`/consumer/requests/${1}` as any)}}>
+      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => { handleSend() }}>
         <Text className="text-[#0f6da9] font-bold text-4xl mr-1">New</Text>
         <View className="bg-[#0f6da9] rounded-full p-4">
-          <Feather name="plus" size={28} color="white"  />
+          <Feather name="plus" size={28} color="white" />
         </View>
       </TouchableOpacity>
 
-      {/* List of Requests */}
+      {/* List of faultuests */}
       <ScrollView className="space-y-3">
-        {requests.map((req) => (
-          <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${req.id}` as any)} key={req.id}>
+        {faultsState.faults.map((fault) => (
+          <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${fault.id}` as any)} key={fault.id}>
             <View
-              key={req.id}
+              key={fault.id}
               className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
             >
               <View className="flex-row justify-between items-start mb-1">
                 <Text className="font-semibold text-base text-black w-4/5">
-                  {req.title}
+                  {fault.id}
                 </Text>
                 <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-                  {req.status}
+                  {fault.status}
                 </Text>
               </View>
               <Text className="text-sm text-gray-700 leading-snug">
-                {req.description}
+                {fault.description}
               </Text>
             </View>
           </Pressable>

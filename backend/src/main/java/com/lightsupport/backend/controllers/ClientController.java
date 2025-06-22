@@ -15,11 +15,4 @@ public class ClientController {
     public ClientController(FaultService faultService) {
         this.faultService = faultService;
     }
-
-    @PostMapping("/create-fault")
-    public ResponseEntity<?> createFault(@RequestBody final CreateFaultRequestDto createFaultRequestDto, Authentication authentication) {
-        String clientId = authentication.getName();
-        System.out.println(clientId);
-        return faultService.createFault(clientId, createFaultRequestDto);
-    }
 }

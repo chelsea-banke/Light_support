@@ -47,6 +47,17 @@ public class Fault {
     @JoinColumn(name = "id_user", nullable = false)
     private User idUser;
 
+    public Fault(String description, User idUser) {
+        this.description = description;
+        this.idUser = idUser;
+        this.status = "active";
+        this.generateId();
+    }
+
+    public Fault() {
+
+    }
+
     @PrePersist
     public void generateId() {
         this.id = UUID.randomUUID().toString();

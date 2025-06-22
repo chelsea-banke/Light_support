@@ -8,7 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -36,4 +36,43 @@ public class Answer {
     @JoinColumn(name = "id_chat_session", nullable = false)
     private ChatSession idChatSession;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public LocalDate getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(LocalDate sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public Message getIdMessage() {
+        return idMessage;
+    }
+
+    public void setIdMessage(Message idMessage) {
+        this.idMessage = idMessage;
+    }
+
+    public ChatSession getIdChatSession() {
+        return idChatSession;
+    }
+
+    public void setIdChatSession(ChatSession idChatSession) {
+        this.idChatSession = idChatSession;
+    }
 }

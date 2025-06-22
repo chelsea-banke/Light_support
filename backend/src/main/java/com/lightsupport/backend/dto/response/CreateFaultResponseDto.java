@@ -7,6 +7,7 @@ public class CreateFaultResponseDto {
     private String description;
     private String status;
     private String location;
+    private String chatId;
     private LocalDate createdDate;
     private LocalDate updateDate;
 
@@ -56,5 +57,13 @@ public class CreateFaultResponseDto {
 
     public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 }

@@ -32,7 +32,7 @@ export default function RequestDetailsLayout() {
                 <Pressable onPress={() => router.back()}>
                   <Ionicons name="arrow-back" size={24} color="white" />
                 </Pressable>
-                <Text className="text-white font-semibold text-2xl">Request {id}</Text>
+                <Text className="text-white font-semibold text-2xl">Request {id.slice(0, 9)}...</Text>
               </View>
               <Pressable className='flex flex-row gap-2' onPress={() => router.push(`/consumer/(nested)/requests/${id}/datails` as any)}>
                 <Text className="text-xs text-[#0f6da9] font-semibold text-center bg-[#a8ca38] px-2 py-1 rounded-full w-16 mt-1">ongoing</Text>
