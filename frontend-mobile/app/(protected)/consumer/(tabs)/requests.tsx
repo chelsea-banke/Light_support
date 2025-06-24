@@ -6,13 +6,16 @@ import stomp from '@/services/stomp-service';
 import wsService from '@/services/ws-service';
 import faultService from '@/services/fault-service';
 import { useGlobalAlert } from '@/hooks/alert-hook';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { getFaults } from '@/redux/middleware/faults-middleware';
+import React from 'react';
   
 export default function faultuestsScreen() {
   const [messages, setMessages] = useState<any[]>([])
   const alert = useGlobalAlert();
   const faultsState = useSelector((state: RootState) => state.faults)
+    const dispatch = useDispatch<AppDispatch>();
 
   // useEffect(() => {
   // 	console.log("Connecting to STOMP...");
@@ -32,10 +35,12 @@ export default function faultuestsScreen() {
     // stomp.sendMessage({ content: 'echo', sender: 'user1' })
     // router.push(`/consumer/faultuests/${1}` as any)
     try {
+      console.log("Creating fault...");
       const response = await faultService.createFault({
         description: 'Transformer is not responding'
       });
-        router.push(`/consumer/faultuests/${response.id}` as any);
+        router.push(`/consumer/requests/${response.id}` as any);
+        dispatch(getFaults());
     } catch (error) {
       alert.showAlert(
         "error",

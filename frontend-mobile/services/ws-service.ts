@@ -38,7 +38,6 @@ const connectWebSocket = (
 const sendMessage = (message: object) => {
     if (socket && isConnected) {
         socket.send(JSON.stringify(message));
-        console.log('[WebSocket] Sent:', message);
     } else {
         console.warn('[WebSocket] Not connected. Cannot send.');
     }

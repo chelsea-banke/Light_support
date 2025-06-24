@@ -1,5 +1,6 @@
 package com.lightsupport.backend.models;
 
+import com.lightsupport.backend.models.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,9 @@ public class Ticket {
     @Column(name = "priority", nullable = false)
     private String priority;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

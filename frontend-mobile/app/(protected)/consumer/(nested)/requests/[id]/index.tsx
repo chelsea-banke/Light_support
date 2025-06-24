@@ -23,7 +23,7 @@ const ChatScreen = () => {
     return {
       _id: msg.id,
       text: msg.content,
-      createdAt: new Date(),
+      createdAt: toDate(msg.createdDate), // Adjusting date format
       user: {
         _id: msg.type === "sent" ? 1 : 2,
         name: "John Doe",
@@ -44,9 +44,32 @@ const ChatScreen = () => {
     }
   };
 
+  function toDate(value: string | any[]): Date | null {
+    if (Array.isArray(value)) {
+      // Expected format: [year, month, day, hour, minute, second, nanoseconds]
+      if (value.length >= 6) {
+        const [year, month, day, hour, minute, second, nanoseconds = 0] = value;
+        return new Date( year, month - 1, day, hour, minute, second, Math.floor(nanoseconds / 1_000_000));
+      } else {
+        console.warn("Invalid array length for date parts");
+        return null;
+      }
+    } else if (typeof value === "string") {
+      // Handle high-precision ISO string (microseconds or nanoseconds)
+      const trimmed = value.substring(0, 23); // Keep up to milliseconds
+      const date = new Date(trimmed);
+      return isNaN(date.getTime()) ? null : date;
+    } else {
+      console.warn("Unsupported date format");
+      return null;
+    }
+  }
+
+
   useEffect(() => {
     fetchMessages()
     wsService.connectWebSocket(id, (msg) => {
+      console.log('[WebSocket] Sent:', msg);
       setMessages((prev) => [
         ...prev,
         formatMessage(msg)
@@ -69,7 +92,7 @@ const ChatScreen = () => {
 
   return (
     <Chat
-      messages={messages}
+      messages={messages.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()).reverse()}
       setMessages={(val) => onSendMessage(val)}
       themeColor="#b6d900"
       themeTextColor="white"

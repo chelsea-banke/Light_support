@@ -1,12 +1,11 @@
 package com.lightsupport.backend.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class MessageDto {
     private String id;
     private String content;
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
     private String chatId;
     private String type;
 
@@ -26,11 +25,11 @@ public class MessageDto {
         this.content = content;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

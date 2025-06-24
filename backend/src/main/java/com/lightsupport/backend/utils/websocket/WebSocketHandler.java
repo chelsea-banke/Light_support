@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lightsupport.backend.dto.MessageDto;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
 import com.lightsupport.backend.services.MessagingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;

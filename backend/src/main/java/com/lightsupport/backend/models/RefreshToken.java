@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -26,12 +26,12 @@ public class RefreshToken {
     private String token;
 
     @Column(name = "expires_at", nullable = false)
-    private LocalDate expiresAt;
+    private LocalDateTime expiresAt;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     public RefreshToken() {
 
@@ -44,7 +44,7 @@ public class RefreshToken {
         }
     }
 
-    public RefreshToken(User user, String token, LocalDate createdAt, LocalDate expiresAt) {
+    public RefreshToken(User user, String token, LocalDateTime createdAt, LocalDateTime expiresAt) {
         this.user = user;
         this.token = token;
         this.createdAt = createdAt;
@@ -75,19 +75,19 @@ public class RefreshToken {
         this.token = token;
     }
 
-    public LocalDate getExpiresAt() {
+    public LocalDateTime getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(LocalDate expiresAt) {
+    public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

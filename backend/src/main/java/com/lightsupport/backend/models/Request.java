@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -22,13 +22,16 @@ public class Request {
     private String quantity;
 
     @Column(name = "request_date", nullable = false)
-    private LocalDate requestDate;
+    private LocalDateTime requestDate;
 
     @Column(name = "handed_date", nullable = false)
-    private LocalDate handedDate;
+    private LocalDateTime handedDate;
 
     @Column(name = "return_date", nullable = false)
-    private LocalDate returnDate;
+    private LocalDateTime returnDate;
+
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

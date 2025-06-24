@@ -1,17 +1,14 @@
 package com.lightsupport.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.lightsupport.backend.models.enums.Role;
+import com.lightsupport.backend.models.enums.Status;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -26,8 +23,9 @@ public class Fault {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private Status status;
 
     @Column(name = "location")
     private String location;
@@ -35,12 +33,12 @@ public class Fault {
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "created_date", nullable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "update_date", nullable = false)
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -50,7 +48,7 @@ public class Fault {
     public Fault(String description, User idUser) {
         this.description = description;
         this.idUser = idUser;
-        this.status = "active";
+        this.status = Status.ACTIVE;
         this.generateId();
     }
 
@@ -79,11 +77,11 @@ public class Fault {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -95,19 +93,19 @@ public class Fault {
         this.location = location;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDate getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDate updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 

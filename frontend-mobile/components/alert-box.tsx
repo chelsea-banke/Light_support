@@ -92,19 +92,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: "100%",
-        gap: 4,
-        paddingBottom: 1
+        gap: 2,
+        paddingBottom: 1,
+        paddingHorizontal: 3,
+        paddingLeft: 1
     },
     button: {
         paddingVertical: 5,
         paddingHorizontal: 16,
-        width: "50%"
+        width: "50%",
     },
     cancelButton: {
         backgroundColor: 'gray', // gray-200
+        borderBottomLeftRadius: 10
     },
     okButton: {
         backgroundColor: '#106ea9', // blue-500
+        borderBottomRightRadius: 10
     },
     buttonText: {
         fontSize: 14,

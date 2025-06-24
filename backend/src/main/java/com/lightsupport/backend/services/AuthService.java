@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 
 @Service
 public class AuthService {
@@ -91,7 +92,7 @@ public class AuthService {
 
         // 4. Persist refresh token in DB
         LocalDate expiryDate = Instant.now().plusSeconds(604800).atZone(ZoneId.systemDefault()).toLocalDate();
-        RefreshToken rt = new RefreshToken(user, refreshToken, LocalDate.now(), expiryDate);
+        RefreshToken rt = new RefreshToken(user, refreshToken, LocalDateTime.now(), expiryDate.atStartOfDay());
         refreshTokenRepo.save(rt);
 
         // 5. Return both tokens to client
@@ -113,7 +114,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Refresh token not found!"));
 
         // 2. Check expiration
-        if (refreshTokenEntity.getExpiresAt().isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+        if (refreshTokenEntity.getExpiresAt().isBefore(ChronoLocalDateTime.from(LocalDateTime.now()))) {
             // Token expired → remove from DB and force re-login
             refreshTokenRepo.delete(refreshTokenEntity);
             throw new RuntimeException("Refresh token expired. Please log in again.");

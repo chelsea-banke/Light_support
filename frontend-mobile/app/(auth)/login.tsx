@@ -31,6 +31,11 @@ export default function LoginScreen() {
             const results = await dispatch(loginUser({ contact, password }))
             if(loginUser.fulfilled.match(results)) {
                 await dispatch(getFaults())
+                alert.showAlert(
+                    "success",
+                    "Login Successful",
+                    "Welcome back! You have successfully logged in."
+                );
                 router.push("/consumer" as any)
             }
             else{

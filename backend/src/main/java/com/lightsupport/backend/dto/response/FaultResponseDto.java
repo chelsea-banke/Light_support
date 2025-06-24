@@ -1,14 +1,14 @@
 package com.lightsupport.backend.dto.response;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class FaultResponseDto {
     private String id;
     private String description;
     private String status;
     private String location;
-    private LocalDate createdDate;
-    private LocalDate updateDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updateDate;
 
     public String getId() {
         return id;
@@ -42,19 +42,19 @@ public class FaultResponseDto {
         this.location = location;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDate getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDate updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 }
