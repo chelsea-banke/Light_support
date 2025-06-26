@@ -36,7 +36,7 @@ export default function FieldTechLoginScreen() {
                     "Login Successful",
                     "Welcome back! You have successfully logged in."
                 );
-                router.push("/field-tech" as any)
+                router.replace("/field-tech" as any)
             }
             else{
                 alert.showAlert(

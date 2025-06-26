@@ -1,65 +1,83 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/redux/store';
-import { getFaults } from '@/redux/middleware/faults-middleware';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { Feather, Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
+import { useGlobalAlert } from '@/hooks/alert-hook'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { getFaults } from '@/redux/middleware/faults-middleware'
+import faultService from '@/services/fault-service'
+import React from 'react'
 
-export default function DashboardScreen() {
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(getFaults());
-  }, [dispatch]);
-
+export default function faultRequestsScreen() {
+  const alert = useGlobalAlert()
   const faultsState = useSelector((state: RootState) => state.faults)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleSend = async () => {
+    try {
+      const response = await faultService.createFault({
+        description: 'Transformer is not responding'
+      })
+        router.push(`/consumer/requests/${response.id}` as any)
+        dispatch(getFaults())
+    } catch (error) {
+      alert.showAlert(
+        "error",
+        "Error creating fault.",
+        "Please try again later or contact support if the issue persists."
+      )
+    }
+  }
+
   return (
-    <View className="flex-1 bg-[#0f6da9]">
-        {/* Welcome + Stats */}
-        <View className="bg-[#cce8ff] px-4 py-6">
-          <Text className="text-xl font-bold text-gray-800">
-            Welcome to your{"\n"}support Dashboard
-          </Text>
-
-          {/* Stat Boxes */}
-          <View className="flex-row justify-between mt-6 space-x-4 relative">
-            <View className="flex-1 items-center bg-white py-4 rounded-lg mr-2">
-              <Text className="text-2xl font-bold text-[#0f6da9]">
-                {faultsState.faults.length}
-              </Text>
-              <Text className="text-xs mt-1 text-gray-700">Requested support</Text>
-            </View>
-            <View className="flex-1 items-center bg-white py-4 rounded-lg ml-2">
-              <Text className="text-2xl font-bold text-[#0f6da9]">
-                {faultsState.faults.filter(f => f.status === 'resolved').length}
-              </Text>
-              <Text className="text-xs mt-1 text-gray-700">Resolved requests</Text>
-            </View>
-          </View>
-
-          {/* Request Support */}
-          <Text className="text-center text-gray-700 mt-6">Having power issues ?</Text>
-          <TouchableOpacity className="bg-[#0f6da9] py-3 rounded-full items-center mt-6" onPress={() => {router.push(`/consumer/requests/${1}` as any)}}>
-            <Text className="text-white font-semibold">Request Support</Text>
-          </TouchableOpacity>
+    <View className="flex-1 bg-[#d9efff] px-4 pt-4">
+      {/* Search & Filter Bar */}
+      <View className="flex-row items-center space-x-2 mb-4">
+        <View className="flex-1 flex-row items-center bg-white rounded-md px-3 py-1 mr-1">
+          <TextInput
+            placeholder="Search"
+            className="ml-2 flex-1 text-gray-700"
+            placeholderTextColor="#9ca3af"
+          />
+          <Feather name="search" size={20} color="#9ca3af" />
         </View>
 
-        {/* Recent Requests */}
-        <View className="px-4 pt-6 bg-white flex-1">
-          <Text className="text-base font-semibold text-[#0f6da9]">Recent Requests</Text>
+        <TouchableOpacity className="flex-row items-center px-3 py-4 rounded-md border-b">
+          <Text className="mr-1 font-medium text-black">Filter</Text>
+          <Ionicons name="filter" size={18} color="black" />
+        </TouchableOpacity>
+      </View>
 
-          <View className="items-center justify-center flex-1">
-            <Image
-              source={require('../../../../assets/images/no-requests.png')} // Add your own illustration
-              className="w-44 h-44"
-              resizeMode="contain"
-            />
-            <Text className=" text-gray-600 text-center">
-              You have not requested{"\n"}any support yet
-            </Text>
-          </View>
+      <TouchableOpacity className="flex-row items-center space-x-2 absolute bottom-4 right-4 z-20" onPress={() => { handleSend() }}>
+        <Text className="text-[#0f6da9] font-bold text-4xl mr-1">New</Text>
+        <View className="bg-[#0f6da9] rounded-full p-4">
+          <Feather name="plus" size={28} color="white" />
         </View>
+      </TouchableOpacity>
+
+      {/* List of faultuests */}
+      <ScrollView className="space-y-3">
+        {faultsState.faults.map((fault) => (
+          <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${fault.id}` as any)} key={fault.id}>
+            <View
+              key={fault.id}
+              className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
+            >
+              <View className="flex-row justify-between items-start mb-1">
+                <Text className="font-semibold text-base text-black w-4/5">
+                  {fault.id}
+                </Text>
+                <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
+                  {fault.status}
+                </Text>
+              </View>
+              <Text className="text-sm text-gray-700 leading-snug">
+                {fault.description}
+              </Text>
+            </View>
+          </Pressable>
+        ))}
+      </ScrollView>
     </View>
-  );
+  )
 }

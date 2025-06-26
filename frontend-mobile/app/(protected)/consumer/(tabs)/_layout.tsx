@@ -28,22 +28,27 @@ export default function Layout() {
               />
               <Text className="text-2xl font-bold text-[#d4e600]">{options.title === "Dashboard" ? 'Light Support' : options.title}</Text>
             </View>
-            <TouchableOpacity onPress={() => {router.push("/consumer/notifications" as any)}}>
-              <Ionicons name="notifications-outline" size={28} color="white" />
-            </TouchableOpacity>
+            <View className='flex-row items-center gap-2'>
+              <TouchableOpacity onPress={() => {router.push("/consumer/stats" as any)}}>
+                <Ionicons name="stats-chart" size={28} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {router.push("/consumer/notifications" as any)}}>
+                <Ionicons name="notifications-outline" size={28} color="white" />
+              </TouchableOpacity>
+            </View>
           </SafeAreaView>
         )
       }}
     >
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="index"
         options={{
           title: 'Dashboard',
           tabBarIcon: ({ color, size }) => <MaterialIcons name="dashboard" size={size} color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
-        name="requests"
+        name="index"
         options={{
           title: 'Requests',
           tabBarIcon: ({ color, size }) => <MaterialIcons name="chat-bubble-outline" size={size} color={color} />,

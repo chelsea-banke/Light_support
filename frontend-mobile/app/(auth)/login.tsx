@@ -36,7 +36,7 @@ export default function LoginScreen() {
                     "Login Successful",
                     "Welcome back! You have successfully logged in."
                 );
-                router.push("/consumer" as any)
+                router.replace("/consumer" as any)
             }
             else{
                 alert.showAlert(

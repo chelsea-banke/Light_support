@@ -16,7 +16,7 @@ export const loginFieldTech = createAsyncThunk<
             const fieldTechData: FieldTech = new FieldTech(
                 response.data.firstName,
                 response.data.lastName,
-                response.data.identification
+                response.data.identifier
             )
             return fieldTechData
         })

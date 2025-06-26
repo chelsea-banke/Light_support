@@ -17,7 +17,7 @@ export const loginClient = createAsyncThunk<
             const clientData: Client = new Client(
                 response.data.firstName,
                 response.data.lastName,
-                response.data.identification
+                response.data.identifier
             )
             return clientData
         })
