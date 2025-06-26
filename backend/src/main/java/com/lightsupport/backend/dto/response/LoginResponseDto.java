@@ -3,7 +3,7 @@ package com.lightsupport.backend.dto.response;
 public class LoginResponseDto {
     private  String firstName;
     private  String lastName;
-    private String contact;
+    private String identifier;
     private String accessToken;
     private String refreshToken;
 
@@ -39,11 +39,11 @@ public class LoginResponseDto {
         this.lastName = lastName;
     }
 
-    public String getContact() {
-        return contact;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

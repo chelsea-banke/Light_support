@@ -7,7 +7,8 @@ export default function RootLayout() {
       <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen name="index"/>
         <Stack.Screen name="create-account"/>
-        <Stack.Screen name="logins"/>
+        <Stack.Screen name="login"/>
+        <Stack.Screen name="field-tech-login"/>
         <Stack.Screen name="verification"/>
       </Stack>
     </GuestGuard>

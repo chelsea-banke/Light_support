@@ -14,7 +14,7 @@ export default function SettingsScreen() {
   const [locationSharingEnabled, setLocationSharingEnabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
 
-  const userState = useSelector((state: RootState) => state.user)
+  const clientState = useSelector((state: RootState) => state.client)
   const dispatch = useDispatch<AppDispatch>();
 
   const languages = [
@@ -24,6 +24,8 @@ export default function SettingsScreen() {
   ];
 
   const handleLogout = () => {
+    console.log("logging out...");
+    
     dispatch(logoutUser())
   }
 
@@ -40,10 +42,10 @@ export default function SettingsScreen() {
         </View>
         <View className='ml-4 flex-1'>
           <View className="flex-row items-center space-x-1">
-            <Text className="text-lg font-semibold">`{userState.user?.firstName} {userState.user?.lastName}`</Text>
+            <Text className="text-lg font-semibold">`{clientState.client?.firstName} {clientState.client?.lastName}`</Text>
             <AntDesign name="edit" size={24} color="black" />
           </View>
-          <Text className="text-gray-500">{userState.user?.contact}</Text>
+          <Text className="text-gray-500">{clientState.client?.contact}</Text>
         </View>
         <TouchableOpacity className="border-2 border-[#106ea9] py-2 rounded-full items-center mt-5 w-1/4" onPress={() => { handleLogout() }}>
             <Text className="text-[#106ea9] font-semibold">Logout</Text>

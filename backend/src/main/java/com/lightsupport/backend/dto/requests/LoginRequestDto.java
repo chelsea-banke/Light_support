@@ -1,15 +1,15 @@
 package com.lightsupport.backend.dto.requests;
 
 public class LoginRequestDto {
-    private String contact;
+    private String identifier;
     private String password;
 
-    public String getContact() {
-        return contact;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getPassword() {

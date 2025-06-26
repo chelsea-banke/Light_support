@@ -1,6 +1,6 @@
 package com.lightsupport.backend.dto.requests;
 
-public class RegisterUserRequestDto {
+public class RegisterClientRequestDto {
     private String firstName;
     private String lastName;
     private String password;

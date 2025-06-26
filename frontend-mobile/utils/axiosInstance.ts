@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { store } from '../redux/store'
-import { logoutUser } from '../redux/middleware/auth'
+import { logoutUser } from '../redux/middleware/client-auth'
 import { secureStore } from './secure-store'
 import auth from '../services/auth'
 

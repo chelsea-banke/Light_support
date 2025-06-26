@@ -3,8 +3,10 @@ import { View, Text, Image, TouchableOpacity, StatusBar, Platform } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 import "../../global.css"
 import { router } from 'expo-router';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function WelcomeScreen() {
+
   return (
     <View className={`flex-1 bg-[#cce8ff] relative`}>
       {/* Top Section with Logo */}
@@ -53,6 +55,11 @@ export default function WelcomeScreen() {
           <Text className="text-[#0f6da9] font-semibold">Create an Account</Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity className="bg-[#cce8ff] pt-3 px-2 w-[35%] items-center absolute right-0 top-10 border-b-2 border-[#0f6da9] flex-row gap-1 mr-1 font-semibold" onPress={() => { router.push("/field-tech-login" as any) }}>
+          <Text className="text-[#0f6da9] font-semibold text-sm">Login As Field Tech</Text>
+          <AntDesign name="arrowright" size={24} color="#0f6da9" />
+      </TouchableOpacity>
     </View>
   );
 }

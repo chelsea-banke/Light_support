@@ -1,9 +1,6 @@
 package com.lightsupport.backend.services;
 
-import com.lightsupport.backend.dto.requests.LoginRequestDto;
-import com.lightsupport.backend.dto.requests.LogoutRequestDto;
-import com.lightsupport.backend.dto.requests.RefreshRequestDto;
-import com.lightsupport.backend.dto.requests.RegisterUserRequestDto;
+import com.lightsupport.backend.dto.requests.*;
 import com.lightsupport.backend.dto.response.LoginResponseDto;
 import com.lightsupport.backend.dto.response.RegisterUserResponseDto;
 import com.lightsupport.backend.models.RefreshToken;
@@ -20,13 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 
 @Service
@@ -53,10 +48,10 @@ public class AuthService {
 
     // ---------------------------------- Client Registration  ----------------------------------
 
-    public RegisterUserResponseDto registerUser(RegisterUserRequestDto registerUserRequest) {
-        if(userRepo.findByContact(registerUserRequest.getContact()).isEmpty()){
-            registerUserRequest.setPassword(passwordEncoder.encode(registerUserRequest.getPassword()));
-            User newUser = modelMapper.map(registerUserRequest, User.class);
+    public RegisterUserResponseDto registerUser(RegisterClientRequestDto registerFieldTechRequestDto) {
+        if(userRepo.findByContact(registerFieldTechRequestDto.getContact()).isEmpty()){
+            registerFieldTechRequestDto.setPassword(passwordEncoder.encode(registerFieldTechRequestDto.getPassword()));
+            User newUser = modelMapper.map(registerFieldTechRequestDto, User.class);
             newUser.setRole(Role.CLIENT);
             newUser.generateId();
             userRepo.save(newUser);
@@ -65,11 +60,59 @@ public class AuthService {
         throw new IllegalArgumentException("user with contact already exists");
     }
 
+    // ---------------------------------- FieldTech Registration  ----------------------------------
+    public RegisterUserResponseDto registerFieldTech(RegisterFieldTechRequestDto registerFieldTechRequestDto) {
+        if(userRepo.findById(registerFieldTechRequestDto.getMatricule()).isEmpty()){
+            registerFieldTechRequestDto.setPassword(passwordEncoder.encode(registerFieldTechRequestDto.getPassword()));
+            User newUser = modelMapper.map(registerFieldTechRequestDto, User.class);
+            newUser.setRole(Role.FIELD_TECH);
+            newUser.setId(registerFieldTechRequestDto.getMatricule());
+            userRepo.save(newUser);
+            return modelMapper.map(newUser, RegisterUserResponseDto.class);
+        }
+        throw new IllegalArgumentException("user with contact already exists");
+    }
     // -------------- Login (Authenticate + Issue Tokens) --------------
 
     public LoginResponseDto clientLogin(LoginRequestDto request) {
         // getting ID for user with passed in credentials
-        String userId = userRepo.findByContact(request.getContact()).stream().findFirst().get().getId();
+        String userId = userRepo.findByContact(request.getIdentifier()).stream().findFirst().get().getId();
+        try {
+            // 1. Authenticate credentials
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userId,
+                            request.getPassword()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Invalid credentials", e);
+        }
+
+        // 2. Load user details after successful authentication
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+        User user = (User) userDetails;
+
+        // 3. Generate tokens
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        // 4. Persist refresh token in DB
+        LocalDate expiryDate = Instant.now().plusSeconds(604800).atZone(ZoneId.systemDefault()).toLocalDate();
+        RefreshToken rt = new RefreshToken(user, refreshToken, LocalDateTime.now(), expiryDate.atStartOfDay());
+        refreshTokenRepo.save(rt);
+
+        // 5. Return both tokens to client
+        LoginResponseDto loginResponseDto = modelMapper.map(user, LoginResponseDto.class);
+        loginResponseDto.setAccessToken(accessToken);
+        loginResponseDto.setRefreshToken(refreshToken);
+
+        return loginResponseDto;
+    }
+
+    public LoginResponseDto fieldTechLogin(LoginRequestDto request) {
+        // getting ID for user with passed in credentials
+        String userId = request.getIdentifier();
         try {
             // 1. Authenticate credentials
             authenticationManager.authenticate(
@@ -136,7 +179,6 @@ public class AuthService {
     @Transactional
     public void logout(LogoutRequestDto request) {
         String rtString = request.getRefreshToken();
-        System.out.println(rtString);
         refreshTokenRepo.deleteByToken(rtString);
     }
 }

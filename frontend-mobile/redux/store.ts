@@ -4,19 +4,21 @@ import { persistReducer, persistStore } from 'redux-persist'
 import { combineReducers } from 'redux'
 
 import authReducer from './slices/auth-slice'
-import userReducer from './slices/user-slice'
+import clientReducer from './slices/client-slice'
 import faultsSlice from './slices/faults-slice'
+import { fieldTechSlice } from './slices/field-tech-slice'
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'user', 'faults'], // persist only these slices
+  whitelist: ['auth', 'client', 'faults', 'fieldTech'], // persist only these slices
 }
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  user: userReducer,
-  faults: faultsSlice
+  client: clientReducer,
+  faults: faultsSlice,
+  fieldTech: fieldTechSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

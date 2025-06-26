@@ -3,18 +3,26 @@ import { View, Text, Image, TouchableOpacity, Switch, Pressable } from 'react-na
 import { SelectList } from 'react-native-dropdown-select-list';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { EvilIcons, FontAwesome, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { logoutUser } from '@/redux/middleware/auth';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
 
 
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationSharingEnabled, setLocationSharingEnabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const dispatch = useDispatch<AppDispatch>();
 
   const languages = [
     { key: '1', value: 'English' },
     { key: '2', value: 'Spanish' },
     { key: '3', value: 'French' },
   ];
+
+  const handleLogout = () => {
+    dispatch(logoutUser())
+  }
 
   return (
     <View className="flex-1 h-full bg-white mb-[-100px]">
@@ -34,6 +42,9 @@ export default function SettingsScreen() {
           </View>
           <Text className="text-gray-500">johndoe@gmail.com</Text>
         </View>
+        <TouchableOpacity className="border-2 border-[#106ea9] py-2 rounded-full items-center mt-5 w-1/4" onPress={() => { handleLogout() }}>
+            <Text className="text-[#106ea9] font-semibold">Logout</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Settings Panel */}

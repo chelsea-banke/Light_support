@@ -1,6 +1,8 @@
 // features/auth/authSlice.ts
 import { createSlice } from '@reduxjs/toolkit'
-import { loginUser, logoutUser } from '../middleware/auth'
+import { loginClient } from '../middleware/client-auth'
+import { logoutUser } from '../middleware/auth'
+import { loginFieldTech } from '../middleware/field-tech-auth'
 
 interface AuthState {
     isAuthenticated: boolean
@@ -20,15 +22,27 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(loginUser.pending, (state) => {
+            .addCase(loginClient.pending, (state) => {
                 state.loading = true
                 state.error = null
             })
-            .addCase(loginUser.fulfilled, (state) => {
+            .addCase(loginClient.fulfilled, (state) => {
                 state.loading = false
                 state.isAuthenticated = true
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(loginClient.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload as string
+            })
+            .addCase(loginFieldTech.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(loginFieldTech.fulfilled, (state) => {
+                state.loading = false
+                state.isAuthenticated = true
+            })
+            .addCase(loginFieldTech.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload as string
             })

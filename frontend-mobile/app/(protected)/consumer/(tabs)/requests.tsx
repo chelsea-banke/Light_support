@@ -1,78 +1,33 @@
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import stomp from '@/services/stomp-service';
-import wsService from '@/services/ws-service';
-import faultService from '@/services/fault-service';
-import { useGlobalAlert } from '@/hooks/alert-hook';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { getFaults } from '@/redux/middleware/faults-middleware';
-import React from 'react';
-  
-export default function faultuestsScreen() {
-  const [messages, setMessages] = useState<any[]>([])
-  const alert = useGlobalAlert();
-  const faultsState = useSelector((state: RootState) => state.faults)
-    const dispatch = useDispatch<AppDispatch>();
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { Feather, Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
+import { useGlobalAlert } from '@/hooks/alert-hook'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { getFaults } from '@/redux/middleware/faults-middleware'
+import faultService from '@/services/fault-service'
+import React from 'react'
 
-  // useEffect(() => {
-  // 	console.log("Connecting to STOMP...");
-  // 	wsService.connectWebSocket((msg) => {
-  // 		setMessages((prev) => [...prev, msg]);
-  // 	}, (error) => {
-  // 		console.error("WebSocket error:", error);
-  // 	});
-  // 	return () => {
-  // 		console.log("Disconnecting from STOMP...");
-  // 		stomp.disconnectStomp()
-  // 	}
-  // }, [])
+export default function faultRequestsScreen() {
+  const alert = useGlobalAlert()
+  const faultsState = useSelector((state: RootState) => state.faults)
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleSend = async () => {
-    // wsService.sendMessage("Hello from React Native!");
-    // stomp.sendMessage({ content: 'echo', sender: 'user1' })
-    // router.push(`/consumer/faultuests/${1}` as any)
     try {
-      console.log("Creating fault...");
       const response = await faultService.createFault({
         description: 'Transformer is not responding'
-      });
-        router.push(`/consumer/requests/${response.id}` as any);
-        dispatch(getFaults());
+      })
+        router.push(`/consumer/requests/${response.id}` as any)
+        dispatch(getFaults())
     } catch (error) {
       alert.showAlert(
         "error",
         "Error creating fault.",
         "Please try again later or contact support if the issue persists."
-      );
+      )
     }
-  };
-
-  const faultuests = [
-    {
-      id: 1,
-      title: 'Transformer down due to...',
-      description:
-        'Sagittis, eu pretium massa quisque cursus augue massa cursus. Sed quisque velit, auctor at lobortis hac tincidunt',
-      status: 'ongoing',
-    },
-    {
-      id: 2,
-      title: 'Transformer down due to...',
-      description:
-        'Sagittis, eu pretium massa quisque cursus augue massa cursus. Sed quisque velit, auctor at lobortis hac tincidunt',
-      status: 'ongoing',
-    },
-    {
-      id: 3,
-      title: 'Transformer down due to...',
-      description:
-        'Sagittis, eu pretium massa quisque cursus augue massa cursus. Sed quisque velit, auctor at lobortis hac tincidunt',
-      status: 'ongoing',
-    },
-  ];
+  }
 
   return (
     <View className="flex-1 bg-[#d9efff] px-4 pt-4">
@@ -124,5 +79,5 @@ export default function faultuestsScreen() {
         ))}
       </ScrollView>
     </View>
-  );
+  )
 }

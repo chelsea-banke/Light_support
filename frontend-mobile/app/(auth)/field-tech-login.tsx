@@ -1,4 +1,4 @@
-import { loginClient } from '@/redux/middleware/client-auth';
+import { loginFieldTech } from '@/redux/middleware/field-tech-auth';
 import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
@@ -9,9 +9,9 @@ import AlertBox from '@/components/alert-box';
 import { getFaults } from '@/redux/middleware/faults-middleware';
 import { useGlobalAlert } from '@/hooks/alert-hook';
 
-export default function LoginScreen() {
+export default function FieldTechLoginScreen() {
     // State for input fields
-    const [contact, setContact] = React.useState('');
+    const [matricule, setMatricule] = React.useState('');
     const [password, setPassword] = React.useState('');
     const alert = useGlobalAlert();
 
@@ -19,7 +19,7 @@ export default function LoginScreen() {
     
 
     const handleLogin = async () => {
-        if (!contact || !password) {
+        if (!matricule || !password) {
             alert.showAlert(
                 "error",
                 "Empty Login Fields",
@@ -28,15 +28,15 @@ export default function LoginScreen() {
 
         }
         else{
-            const results = await dispatch(loginClient({ contact, password }))
-            if(loginClient.fulfilled.match(results)) {
+            const results = await dispatch(loginFieldTech({ matricule, password }))
+            if(loginFieldTech.fulfilled.match(results)) {
                 await dispatch(getFaults())
                 alert.showAlert(
                     "success",
                     "Login Successful",
                     "Welcome back! You have successfully logged in."
                 );
-                router.push("/consumer" as any)
+                router.push("/field-tech" as any)
             }
             else{
                 alert.showAlert(
@@ -66,17 +66,17 @@ export default function LoginScreen() {
 
                 {/* Form Container */}
                 <View className="bg-[#0f6da9] rounded-t-2xl flex-1 py-14 px-10">
-                    {/* Contact Field */}
+                    {/* matricule Field */}
                     <Text className="text-white font-semibold mb-1">
-                        Contact<Text className="text-red-500">*</Text>
+                        Matricule<Text className="text-red-500">*</Text>
                     </Text>
                     <TextInput
                         placeholder="000-000-000"
                         placeholderTextColor="#d4e7f5"
                         className="bg-[#6da8cf] text-white px-4 py-3 rounded-lg mb-1"
                         keyboardType="numeric"
-                        value={contact}
-                        onChangeText={setContact}
+                        value={matricule}
+                        onChangeText={setMatricule}
                     />
                     <Text className="text-xs text-white mb-4">This is the description area</Text>
 
@@ -97,15 +97,6 @@ export default function LoginScreen() {
                     {/* Login Button */}
                     <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={() => { handleLogin() }}>
                         <Text className="text-[#0f6da9] font-semibold">Login Into Your Account</Text>
-                    </TouchableOpacity>
-
-                    {/* Register Prompt */}
-                    <Text className="text-center text-[#c2e600] font-bold my-2">
-                        or don’t have an account ?
-                    </Text>
-
-                    <TouchableOpacity className="bg-[#cce8ff] py-3 rounded-full items-center" onPress={() => { router.push("/create-account" as any) }}>
-                        <Text className="text-[#0f6da9] font-semibold">Create an Account</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
