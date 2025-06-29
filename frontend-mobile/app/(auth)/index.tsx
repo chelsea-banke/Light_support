@@ -15,7 +15,7 @@ export default function WelcomeScreen() {
         {/* Placeholder for light bulb headset icon */}
         <Image
           source={require('../../assets/images/light-logo.png')} // Replace with your actual image path
-          className="w-100 h-100"
+          className="w-50 h-50"
           resizeMode="contain"
         />
 

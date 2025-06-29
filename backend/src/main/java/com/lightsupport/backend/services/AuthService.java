@@ -5,7 +5,7 @@ import com.lightsupport.backend.dto.response.LoginResponseDto;
 import com.lightsupport.backend.dto.response.RegisterUserResponseDto;
 import com.lightsupport.backend.models.RefreshToken;
 import com.lightsupport.backend.models.User;
-import com.lightsupport.backend.models.enums.Role;
+import com.lightsupport.backend.models.types.Role;
 import com.lightsupport.backend.repositories.RefreshTokenRepo;
 import com.lightsupport.backend.repositories.UserRepo;
 import com.lightsupport.backend.utils.jwt.JwtUtil;

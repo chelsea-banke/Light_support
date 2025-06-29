@@ -3,6 +3,7 @@ import { View, Text, Switch, ScrollView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { FontAwesome, Entypo, Foundation, MaterialIcons } from '@expo/vector-icons';
 import LeafletMap from '@/components/leaflet-map';
+import AssetMap from '@/components/map-view/asset-map';
 // import Carousel from 'react-native-snap-carousel';
 
 export default function AssetMapScreen() {
@@ -48,6 +49,8 @@ export default function AssetMapScreen() {
   return (
     <ScrollView className="flex-1 bg-[#0f6da9]">
       {/* Map Section */}
+
+      <AssetMap/>
       <LeafletMap latitude={6.5244} longitude={3.3792} zoom={14} />
 
       {/* Distance Indicator */}

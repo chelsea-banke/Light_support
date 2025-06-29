@@ -6,7 +6,7 @@ import com.lightsupport.backend.dto.response.LoginResponseDto;
 import com.lightsupport.backend.models.Answer;
 import com.lightsupport.backend.models.Message;
 import com.lightsupport.backend.models.User;
-import com.lightsupport.backend.models.enums.Role;
+import com.lightsupport.backend.models.types.Role;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

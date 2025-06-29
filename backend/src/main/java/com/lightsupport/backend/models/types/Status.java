@@ -1,4 +1,4 @@
-package com.lightsupport.backend.models.enums;
+package com.lightsupport.backend.models.types;
 
 public enum Status {
     ACTIVE,

@@ -1,11 +1,10 @@
 package com.lightsupport.backend.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.lightsupport.backend.models.types.Location;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import java.util.List;
 
@@ -21,7 +20,8 @@ public class Asset {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @Embedded
     @Column(name = "location", nullable = false)
-    private String location;
+    private Location location;
 
 }

@@ -1,7 +1,8 @@
 package com.lightsupport.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.lightsupport.backend.models.enums.Role;
+import com.lightsupport.backend.models.types.Location;
+import com.lightsupport.backend.models.types.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,8 +41,9 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "location")
-    private String location;
+    @Embedded
+    @Column(name = "location", nullable = false)
+    private Location location;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
@@ -148,11 +150,11 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

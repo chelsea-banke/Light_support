@@ -1,13 +1,11 @@
 package com.lightsupport.backend.models;
 
-import com.lightsupport.backend.models.enums.Status;
+import com.lightsupport.backend.models.types.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.util.List;
 
 @Getter
 @Setter
