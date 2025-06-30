@@ -11,7 +11,7 @@ type GuestGuardProp = {
 export const GuestGuard: React.FC<GuestGuardProp> = ({ children }) => {
     const auth = useSelector((state: RootState) => state.auth) 
     if (auth.isAuthenticated) {
-        return <Redirect href="/consumer" />
+        return <Redirect href={`/${auth.type === 'client' ? 'consumer' : auth.type === 'fieldTech' ? 'field-tech' : ''}`} />
     }   
     return (
         <>{children}</>

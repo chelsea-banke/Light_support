@@ -5,6 +5,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AlertProvider } from "@/hooks/alert-hook";
+import { Logger } from "@maplibre/maplibre-react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+Logger.setLogLevel('error'); // Set log level to ERROR to reduce console noise
 
 export default function RootLayout() {
   return(
@@ -12,7 +16,9 @@ export default function RootLayout() {
       <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
       <AlertProvider>
         <SafeAreaProvider>
-          <Stack screenOptions={{ headerShown: false }} />
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <Stack screenOptions={{ headerShown: false }} />
+          </GestureHandlerRootView>
         </SafeAreaProvider>
       </AlertProvider>
       </PersistGate>

@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { store } from '../redux/store'
-import { logoutUser } from '../redux/middleware/client-auth'
+import { logoutUser } from '../redux/middleware/auth'
 import { secureStore } from './secure-store'
 import auth from '../services/auth'
 
 // baseURL: 'http://192.168.219.29:8080/api',
+// 'http://10.0.2.2:8080/api'
 const axiosInstance = axios.create({
-    baseURL: 'http://10.0.2.2:8080/api',
+    baseURL: 'http://192.168.181.29:8080/api',
 })
 
 // Request interceptor

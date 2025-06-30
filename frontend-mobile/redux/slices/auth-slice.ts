@@ -6,12 +6,14 @@ import { loginFieldTech } from '../middleware/field-tech-auth'
 
 interface AuthState {
     isAuthenticated: boolean
+    type?: 'client' | 'fieldTech'
     loading: boolean
     error: string | null
 }
 
 const initialState: AuthState = {
     isAuthenticated: false,
+    type: undefined, // 'client' or 'fieldTech'
     loading: false,
     error: null,
 }
@@ -29,6 +31,7 @@ const authSlice = createSlice({
             .addCase(loginClient.fulfilled, (state) => {
                 state.loading = false
                 state.isAuthenticated = true
+                state.type = 'client'
             })
             .addCase(loginClient.rejected, (state, action) => {
                 state.loading = false
@@ -41,6 +44,7 @@ const authSlice = createSlice({
             .addCase(loginFieldTech.fulfilled, (state) => {
                 state.loading = false
                 state.isAuthenticated = true
+                state.type = 'fieldTech'
             })
             .addCase(loginFieldTech.rejected, (state, action) => {
                 state.loading = false

@@ -32,7 +32,7 @@ export default function AssetsLayout() {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 backgroundColor: '#0f6da9',
-                paddingVertical: 12,
+                paddingVertical: 15,
                 paddingHorizontal: 16,
               }}
               edges={['top', 'left', 'right']}
@@ -41,7 +41,7 @@ export default function AssetsLayout() {
                 <Pressable onPress={() => router.back()}>
                   <Ionicons name="arrow-back" size={24} color="white" />
                 </Pressable>
-                <Text style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>Ticket {id}</Text>
+                <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>Ticket {id}</Text>
               </View>
             </SafeAreaView>
           ),
