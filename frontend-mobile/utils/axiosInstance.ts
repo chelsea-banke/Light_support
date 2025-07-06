@@ -7,7 +7,7 @@ import auth from '../services/auth'
 // baseURL: 'http://192.168.219.29:8080/api',
 // 'http://10.0.2.2:8080/api'
 const axiosInstance = axios.create({
-    baseURL: 'http://192.168.181.29:8080/api',
+    baseURL: 'http://10.109.47.29:8080/api',
 })
 
 // Request interceptor

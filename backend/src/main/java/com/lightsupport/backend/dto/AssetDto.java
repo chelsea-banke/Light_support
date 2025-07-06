@@ -1,44 +1,18 @@
-package com.lightsupport.backend.models;
+package com.lightsupport.backend.dto;
 
 import com.lightsupport.backend.models.types.Location;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "asset")
-public class Asset {
-    @Id
-    @Column(name = "id", nullable = false)
+public class AssetDto {
     private String id;
-
-    @Column(name = "type", nullable = false)
     private String type;
-
-    @Column(name = "longitude", nullable = false)
     private BigDecimal longitude;
-
-    @Column(name = "latitude", nullable = false)
     private BigDecimal latitude;
-
-    @Column(name = "address", nullable = false)
     private String address;
-
-    public Asset() {
-    }
-
-    public Asset(String id, String type, BigDecimal longitude, BigDecimal latitude, String address) {
-        this.id = id;
-        this.type = type;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-    }
 
     public String getId() {
         return id;

@@ -44,3 +44,21 @@ export interface Fault {
     createdDate: string
     updateDate: string
 }
+
+export interface Asset {
+    id: string
+    type: string
+    longitude: string
+    latitude: string | null
+    address: string
+}
+export interface Ticket {
+    id: string
+    priority: string,
+    status: string,
+    idUser: string,
+    idFault: string,
+    longitude: number
+    latitude: number
+    address: string
+}

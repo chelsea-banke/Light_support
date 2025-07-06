@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View,
-  Text,
-  Switch,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
+View,
+Text,
+Switch,
+ScrollView,
+Image,
+TouchableOpacity,
+StyleSheet,
+Dimensions,
 } from 'react-native';
 import { Entypo, Foundation, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { Modalize } from 'react-native-modalize';
+import LeafletMap from '@/components/leaflet-map';
 import { MapComponent } from '@/components/map';
 import ImageCarousel from '@/components/image-carousel';
 import { useLocalSearchParams } from 'expo-router';
@@ -18,29 +19,31 @@ import { useLocalSearchParams } from 'expo-router';
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SHEET_PEEK = 150;
 
-export default function AssetMapScreen() {
+export default function TicketMapScreen() {
   const modalizeRef = useRef<Modalize>(null);
 
-    const { asset } = useLocalSearchParams();
-  const parsedAsset = JSON.parse(asset as string);
+  const { ticket } = useLocalSearchParams();
+  const parsedTicket = JSON.parse(ticket as string);
+  console.log(parsedTicket);
+  
 
   const [showDirections, setShowDirections] = useState(true);
   const [userLocation, setUserLocation] = useState<[number, number]>([0, 0]);
-  const [focusLocation, setFocusLocation] = useState<[number, number]>([parsedAsset.longitude, parsedAsset.latitude]);
+  const [focusLocation, setFocusLocation] = useState<[number, number]>([parsedTicket.longitude, parsedTicket.latitude]);
   const [distance, setDistance] = useState(0);
 
   const openSheet = () => modalizeRef.current?.open();
   const closeSheet = () => modalizeRef.current?.close();
 
   useEffect(()=>{
-    console.log(parsedAsset);
+    console.log(parsedTicket);
   }, [])
 
   return (
     <>
       <ScrollView style={styles.screen}>
         <MapComponent
-          targetLocation={[parsedAsset.longitude, parsedAsset.latitude]}
+          targetLocation={[parsedTicket.longitude, parsedTicket.latitude]}
           focusLocation={focusLocation}
           onDistanceChange={setDistance}
           onUserLocationChange={setUserLocation}
@@ -76,14 +79,14 @@ export default function AssetMapScreen() {
             { ` ${distance}km ` }
             {'———————'.slice(0, (15-distance.toString().length))}
             </Text>
-            <TouchableOpacity onPress={() => setFocusLocation([parsedAsset.longitude, parsedAsset.latitude])}>
+            <TouchableOpacity onPress={() => setFocusLocation([parsedTicket.longitude, parsedTicket.latitude])}>
               <Foundation name="target-two" size={28} color="#a6c936" />
             </TouchableOpacity>
           </View>
           <View style={styles.labelsRow}>
             <Text style={styles.label}>You...</Text>
-            <Text style={[styles.label, styles.activeBadge]}>active</Text>
-            <Text style={styles.label}>Asset</Text>
+            <Text style={[styles.label, styles.activeBadge]}>{}</Text>
+            <Text style={styles.label}>Ticket</Text>
           </View>
 
           {/* Show Directions Toggle */}
@@ -100,16 +103,16 @@ export default function AssetMapScreen() {
               style={styles.switch}
             />
           </View>
-
-          <View style={styles.galleryRow}>
+          
+          {/* <View style={styles.galleryRow}>
             <ImageCarousel
               images={[
-                require('@/assets/images/no-requests.png'),
-                require('@/assets/images/no-requests.png'),
-                require('@/assets/images/no-requests.png'),
+                require('@/tickets/images/no-requests.png'),
+                require('@/tickets/images/no-requests.png'),
+                require('@/tickets/images/no-requests.png'),
               ]}
             />
-          </View>
+          </View> */}
 
           {/* Info Text */}
           <Text style={styles.infoText}>

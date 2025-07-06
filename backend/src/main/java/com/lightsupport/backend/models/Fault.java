@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,9 +29,14 @@ public class Fault {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Embedded
-    @Column(name = "location", nullable = false)
-    private Location location;
+    @Column(name = "longitude")
+    private BigDecimal longitude;
+
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    @Column(name = "address")
+    private String address;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
@@ -87,14 +93,6 @@ public class Fault {
         this.status = status;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -117,5 +115,29 @@ public class Fault {
 
     public void setIdUser(User idUser) {
         this.idUser = idUser;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -1,8 +1,18 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useEffect } from 'react';
+import { getAssets } from '@/redux/middleware/assets-middleware';
 
 export default function AssetsScreen() {
+  const assetsState = useSelector((state: RootState) => state.assets)
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(()=>{    
+    dispatch(getAssets())
+  }, [])
   const tickets = [
     {
       id: 1,
@@ -53,22 +63,33 @@ export default function AssetsScreen() {
 
       {/* List of tickets */}
       <ScrollView className="space-y-3">
-        {tickets.map((ticket) => (
-          <Pressable className='mb-3' onPress={() => router.push(`/field-tech/assets/${ticket.id}` as any)} key={ticket.id}>
-            <Text className='text-sm bg-gray-600 rounded-t text-white text-left px-4'>{ticket.type}</Text>
+        {assetsState.assets.map((asset) => (
+          <Pressable className='mb-3' onPress={() => router.push({
+              pathname: `/field-tech/assets/${asset.id}` as any,
+              params: { asset: JSON.stringify(asset) }
+            })} key={asset.id}
+          >
+            <View className='text-sm bg-gray-500 rounded-t text-left px-4 flex-row justify-between'>
+              <Text className='text-sm text-white text-left mt-[2px]'>{asset.type}</Text>
+              <Text className="bg-[#b3e700] text-xs text-gray-600 font-semibold px-2 rounded-full my-1">
+                {/* {ticket.status} */}active
+              </Text>
+            </View>
             <View
-              key={ticket.id}
+              key={asset.id}
               className="bg-white p-3 rounded rounded-tr-none border-t border-gray-600 flex flex-row justify-between items-center"
             >
               {/* <View className="flex-row justify-between items-start mb-1">
 
               </View> */}
-            <Text className="font-semibold text-base text-black w-4/5">
-              {ticket.title}
-            </Text>
-            <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-              {ticket.status}
-            </Text>
+            <View className='flex-row justify-between gap-3'>
+              <Text className="font-semibold text-base text-black">
+                {asset.id} |
+              </Text>
+              <Text className="font-semibold text-base text-gray-500">
+                {asset.address}
+              </Text>
+            </View>
             </View>
           </Pressable>
         ))}

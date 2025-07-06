@@ -8,7 +8,7 @@ const connectWebSocket = (
     onMessage: MessageHandler,
     onError?: (e: any) => void
 ) => {
-    socket = new WebSocket(`ws://10.0.2.2:8080/api/ws?faultId=${faultId}`);
+    socket = new WebSocket(`ws://192.168.242.29:8080/api/ws?faultId=${faultId}`);
 
     socket.onopen = () => {
         isConnected = true;

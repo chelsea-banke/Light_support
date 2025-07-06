@@ -1,8 +1,21 @@
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useEffect } from 'react';
+import { getTickets } from '@/redux/middleware/tickets-middleware';
 
 export default function TicketsScreen() {
+  const ticketsState = useSelector((state: RootState) => state.tickets)
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(()=>{    
+    dispatch(getTickets())
+    console.log(ticketsState.tickets);
+    
+  }, [])
+
   const tickets = [
     {
       id: 1,
@@ -48,22 +61,25 @@ export default function TicketsScreen() {
 
       {/* List of tickets */}
       <ScrollView className="space-y-3">
-        {tickets.map((ticket) => (
-          <Pressable onPress={() => router.push(`/field-tech/(nested)/tickets/${ticket.id}` as any)} key={ticket.id}>
+        {ticketsState.tickets.map((ticket) => (
+          <Pressable onPress={() => router.push({
+              pathname: `/field-tech/tickets/${ticket.id}` as any,
+              params: { ticket: JSON.stringify(ticket) }
+            })} key={ticket.id}>
             <View
               key={ticket.id}
               className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
             >
               <View className="flex-row justify-between items-start mb-1">
                 <Text className="font-semibold text-base text-black w-4/5">
-                  {ticket.title}
+                  {ticket.address}
                 </Text>
                 <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-                  {ticket.status}
+                  {ticket.status.toLocaleLowerCase()}
                 </Text>
               </View>
               <Text className="text-sm text-gray-700 leading-snug">
-                {ticket.description}
+                {ticket.id}
               </Text>
             </View>
           </Pressable>

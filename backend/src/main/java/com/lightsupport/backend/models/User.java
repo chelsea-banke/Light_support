@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -41,9 +42,14 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Embedded
-    @Column(name = "location", nullable = false)
-    private Location location;
+    @Column(name = "longitude")
+    private BigDecimal longitude;
+
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    @Column(name = "address")
+    private String address;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
@@ -150,12 +156,28 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public Location getLocation() {
-        return location;
+    public BigDecimal getLongitude() {
+        return longitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getCreatedAt() {

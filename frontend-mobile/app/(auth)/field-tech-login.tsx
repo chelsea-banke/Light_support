@@ -74,7 +74,6 @@ export default function FieldTechLoginScreen() {
                         placeholder="000-000-000"
                         placeholderTextColor="#d4e7f5"
                         className="bg-[#6da8cf] text-white px-4 py-3 rounded-lg mb-1"
-                        keyboardType="numeric"
                         value={matricule}
                         onChangeText={setMatricule}
                     />

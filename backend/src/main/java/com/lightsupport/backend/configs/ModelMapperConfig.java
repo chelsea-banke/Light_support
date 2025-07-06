@@ -1,10 +1,12 @@
 package com.lightsupport.backend.configs;
 
 import com.lightsupport.backend.dto.MessageDto;
+import com.lightsupport.backend.dto.TicketDto;
 import com.lightsupport.backend.dto.requests.RegisterFieldTechRequestDto;
 import com.lightsupport.backend.dto.response.LoginResponseDto;
 import com.lightsupport.backend.models.Answer;
 import com.lightsupport.backend.models.Message;
+import com.lightsupport.backend.models.Ticket;
 import com.lightsupport.backend.models.User;
 import com.lightsupport.backend.models.types.Role;
 import org.modelmapper.Converter;
@@ -60,6 +62,14 @@ public class ModelMapperConfig {
                         mapper.using(identifierConverter)
                                 .map(src -> src, LoginResponseDto::setIdentifier)
                 );
+
+        modelMapper.addMappings(new PropertyMap<Ticket, TicketDto>() {
+            @Override
+            protected void configure() {
+                map().setIdUser(source.getIdUser().getId());
+                map().setIdFault(source.getIdFault().getId());
+            }
+        });
 
         return modelMapper;
     }
