@@ -1,0 +1,12 @@
+# backend/.dockerignore
+target/
+*.log
+*.jar
+.dockerignore
+Dockerfile
+
+# mobile/.dockerignore
+node_modules/
+npm-debug.log
+yarn-error.log
+.DS_Store

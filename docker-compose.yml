@@ -1,0 +1,52 @@
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: light-support-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: DockerFile
+    image: light-support-backend
+    container_name: light-support-backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/${DB_NAME}"
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  mobile:
+    build:
+      context: ./frontend-mobile
+      dockerfile: DockerFile
+    image: light-support-mobile
+    container_name: light-support-mobile
+    env_file: .env
+    environment:
+      ADB_IP: ${ADB_IP}
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "8081:8081"
+    volumes:
+      - ./mobile:/app
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

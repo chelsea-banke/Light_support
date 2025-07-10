@@ -1,0 +1,18 @@
+# mobile/Dockerfile
+
+FROM node:18 AS base
+WORKDIR /app
+
+# Install Expo CLI and Android ADB tools
+RUN npm install -g expo-cli \
+    && apt-get update && apt-get install -y android-tools-adb
+
+# Set Metro bundler hostname so that Expo picks the right host IP
+ENV REACT_NATIVE_PACKAGER_HOSTNAME=0.0.0.0
+ENV EXPO_PACKAGER_HOSTNAME=0.0.0.0
+
+# Expose Expo/Metro ports
+EXPOSE 19000 19001 8081
+
+# Default command: connect ADB and start Expo in dev-client mode
+CMD ["sh", "-c", "adb connect $ADB_IP && expo start --dev-client --host lan"]
