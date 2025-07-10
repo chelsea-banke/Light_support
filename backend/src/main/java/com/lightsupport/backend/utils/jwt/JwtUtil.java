@@ -3,6 +3,7 @@ package com.lightsupport.backend.utils.jwt;
 import com.lightsupport.backend.configs.JwtPropertiesConfig;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -58,6 +59,9 @@ public class JwtUtil {
 
     public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList());
         return createToken(claims, userDetails.getUsername(), jwtProperties.getAccessTokenValidity());
     }
 

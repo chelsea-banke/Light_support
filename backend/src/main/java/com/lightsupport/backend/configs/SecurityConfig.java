@@ -38,6 +38,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+
+                        .requestMatchers("/asset/**").hasRole("FIELD_TECH")
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

@@ -1,24 +1,23 @@
 package com.lightsupport.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.lightsupport.backend.models.types.Location;
 import com.lightsupport.backend.models.types.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "\"user\"")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User implements UserDetails {
+public class User implements UserDetails, GrantedAuthority {
     @Id
     @Column(name = "id", nullable = false)
     private String id;
@@ -71,11 +70,6 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
     }
 
     @Override
@@ -194,5 +188,15 @@ public class User implements UserDetails {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getAuthority() {
+        return ("ROLE_" + role.toString());
     }
 }

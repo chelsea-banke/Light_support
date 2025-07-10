@@ -50,7 +50,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 3. If username is not null and there’s no existing Authentication
+        // 3. If username is not null and there’s no existing AuthenticatioS
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = userService.loadUserByUsername(username);
