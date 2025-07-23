@@ -1,12 +1,14 @@
 package com.lightsupport.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lightsupport.backend.dto.MessageDto;
 import com.lightsupport.backend.dto.requests.CreateFaultRequestDto;
 import com.lightsupport.backend.dto.response.CreateFaultResponseDto;
 import com.lightsupport.backend.dto.response.FaultResponseDto;
 import com.lightsupport.backend.models.ChatSession;
 import com.lightsupport.backend.models.Fault;
 import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
 import com.lightsupport.backend.repositories.FaultRepo;
 import com.lightsupport.backend.repositories.UserRepo;
@@ -26,14 +28,16 @@ public class FaultService {
     private final FaultRepo faultRepo;
     private final ModelMapper modelMapper;
     private final ChatSessionRepo chatSessionRepo;
+    private final MessagingService messagingService;
     JsonUtil jsonUtil = new JsonUtil();
 
     @Autowired
-    public FaultService(UserRepo userRepo, FaultRepo faultRepo, ModelMapper modelMapper, ChatSessionRepo chatSessionRepo) {
+    public FaultService(UserRepo userRepo, FaultRepo faultRepo, ModelMapper modelMapper, ChatSessionRepo chatSessionRepo, MessagingService messagingService) {
         this.userRepo = userRepo;
         this.faultRepo = faultRepo;
         this.modelMapper = modelMapper;
         this.chatSessionRepo = chatSessionRepo;
+        this.messagingService = messagingService;
     }
 
     @Transactional
@@ -41,6 +45,7 @@ public class FaultService {
         User client = userRepo.getById(clientId);
         Fault fault = faultRepo.save(new Fault(createFaultRequestDto.getDescription(), client));
         ChatSession chatSession = chatSessionRepo.save(new ChatSession(client, fault));
+        messagingService.saveMessage(new MessageDto("Hello and welcome to light support, How can I help you", chatSession.getId(), MessageType.RECIEVED));
         return ResponseEntity.ok(modelMapper.map(fault, CreateFaultResponseDto.class));
     }
 

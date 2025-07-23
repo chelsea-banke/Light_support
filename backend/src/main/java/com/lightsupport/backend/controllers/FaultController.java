@@ -33,7 +33,7 @@ public class FaultController {
 //        return faultRepo.findByIdUserId(authentication.getName());
         return faultService.getAllFaults(clientId);
     }
-    @PostMapping("/create-fault")
+    @PostMapping("/create")
     public ResponseEntity<?> createFault(@RequestBody final CreateFaultRequestDto createFaultRequestDto, Authentication authentication) {
         String clientId = authentication.getName();
         return faultService.createFault(clientId, createFaultRequestDto);

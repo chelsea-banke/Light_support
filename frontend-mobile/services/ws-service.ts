@@ -1,14 +1,21 @@
+import { baseURL } from '@/utils/axiosInstance';
+
 let socket: WebSocket | null = null;
 let isConnected = false;
 
 type MessageHandler = (data: any) => void;
+
+export let wsBaseURL = 'ws://10.0.2.2:8080/api/ws'; // mutable outside Redux
+export const setWSBaseUrl = (url: string) => {
+  wsBaseURL = `ws://${url}:8080/api/ws`; // or use WSS if needed
+};
 
 const connectWebSocket = (
     faultId: string,
     onMessage: MessageHandler,
     onError?: (e: any) => void
 ) => {
-    socket = new WebSocket(`ws://192.168.242.29:8080/api/ws?faultId=${faultId}`);
+    socket = new WebSocket(`${wsBaseURL}?faultId=${faultId}`);
 
     socket.onopen = () => {
         isConnected = true;

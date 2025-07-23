@@ -1,5 +1,7 @@
 package com.lightsupport.backend.dto;
 
+import com.lightsupport.backend.models.types.MessageType;
+
 import java.time.LocalDateTime;
 
 public class MessageDto {
@@ -7,7 +9,16 @@ public class MessageDto {
     private String content;
     private LocalDateTime createdDate;
     private String chatId;
-    private String type;
+    private MessageType type;
+
+    public MessageDto() {
+    }
+
+    public MessageDto(String content, String chatId, MessageType type) {
+        this.content = content;
+        this.chatId = chatId;
+        this.type = type;
+    }
 
     public String getId() {
         return id;
@@ -41,11 +52,11 @@ public class MessageDto {
         this.chatId = chatId;
     }
 
-    public String getType() {
+    public MessageType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MessageType type) {
         this.type = type;
     }
 }

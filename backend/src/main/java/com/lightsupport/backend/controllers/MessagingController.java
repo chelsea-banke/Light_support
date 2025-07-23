@@ -18,7 +18,7 @@ public class MessagingController {
         this.messagingService = messagingService;
     }
 
-    @GetMapping
+    @GetMapping("get-all")
     public ResponseEntity<?> getMessages(@RequestParam String faultId) {
         return messagingService.getAllMessages(faultId);
     }

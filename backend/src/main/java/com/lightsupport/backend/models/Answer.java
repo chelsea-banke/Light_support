@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -34,6 +35,11 @@ public class Answer {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_chat_session", nullable = false)
     private ChatSession idChatSession;
+
+    @PrePersist
+    public void generateId() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getId() {
         return id;

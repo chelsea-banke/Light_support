@@ -4,15 +4,18 @@ import { logoutUser } from '../redux/middleware/auth'
 import { secureStore } from './secure-store'
 import auth from '../services/auth'
 
-// baseURL: 'http://192.168.219.29:8080/api',
-// 'http://10.0.2.2:8080/api'
-const axiosInstance = axios.create({
-    baseURL: 'http://10.109.47.29:8080/api',
-})
+export let baseURL = 'http://10.0.2.2:8080/api'; // mutable outside Redux
+
+export const setBaseUrl = (url: string) => {
+  baseURL = `http://${url}:8080/api`; // or use HTTPS if needed
+};
+
+const axiosInstance = axios.create({})
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
     async (config) => {
+        config.baseURL = baseURL;
         const isAuthRoute = config.url?.startsWith('/auth')
         if (!isAuthRoute) {
             const token = await secureStore.getAccessToken()

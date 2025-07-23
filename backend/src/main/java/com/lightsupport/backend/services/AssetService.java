@@ -1,7 +1,6 @@
 package com.lightsupport.backend.services;
 
 import com.lightsupport.backend.dto.AssetDto;
-import com.lightsupport.backend.dto.response.FaultResponseDto;
 import com.lightsupport.backend.models.Asset;
 import com.lightsupport.backend.repositories.AssetRepo;
 import org.modelmapper.ModelMapper;

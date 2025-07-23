@@ -3,8 +3,11 @@ package com.lightsupport.backend.utils.websocket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lightsupport.backend.dto.MessageDto;
+import com.lightsupport.backend.models.Message;
+import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
 import com.lightsupport.backend.services.MessagingService;
+import com.lightsupport.backend.utils.JsonUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.*;
@@ -34,15 +37,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        try {
             // Convert JSON string to DTO
+            JsonUtil jsonUtil = new JsonUtil();
+            jsonUtil.printOut(message.getPayload());
             MessageDto incoming = objectMapper.readValue(message.getPayload(), MessageDto.class);
             incoming.setChatId(chatSessionRepo.findByIdFault_Id(incoming.getChatId()).get(0).getId());
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(messagingService.saveMessage(incoming))));
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.sendMessage(new TextMessage("{\"error\": \"Invalid message format\"}"));
-        }
+
+            MessageDto sentMessage = messagingService.saveMessage(incoming);
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sentMessage)));
+
+            MessageDto recievedMessage = new MessageDto(messagingService.queryAiAgent(sentMessage), sentMessage.getChatId(), MessageType.RECIEVED);
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(messagingService.saveMessage(recievedMessage))));
     }
 
     @Override

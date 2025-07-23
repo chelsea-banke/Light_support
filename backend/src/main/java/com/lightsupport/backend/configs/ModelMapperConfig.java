@@ -8,6 +8,7 @@ import com.lightsupport.backend.models.Answer;
 import com.lightsupport.backend.models.Message;
 import com.lightsupport.backend.models.Ticket;
 import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.models.types.Role;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -36,7 +37,7 @@ public class ModelMapperConfig {
             protected void configure() {
                 map().setChatId(source.getIdChatSession().getId());
                 map().setContent(source.getMessage());
-                map().setType("sent");
+                map().setType(source.getType());
             }
         });
 
@@ -45,7 +46,7 @@ public class ModelMapperConfig {
             protected void configure() {
                 map().setContent(source.getAnswer());
                 map().setCreatedDate(source.getSendDate());
-                map().setType("received");
+                map().setType(MessageType.RECIEVED);
             }
         });
 

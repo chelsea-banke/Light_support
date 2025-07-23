@@ -23,6 +23,11 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<?> ping(){
+        return ResponseEntity.ok(true);
+    }
+
     @PostMapping("/register-client")
     public RegisterUserResponseDto registerClient(@RequestBody RegisterClientRequestDto registerUserRequest) {
         return authService.registerUser(registerUserRequest);

@@ -1,5 +1,6 @@
 package com.lightsupport.backend.models;
 
+import com.lightsupport.backend.models.types.MessageType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,10 @@ public class Message {
     @Column(name = "message", nullable = false)
     private String message;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false )
+    private MessageType type;
+
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "created_date")
@@ -49,9 +54,10 @@ public class Message {
 
     }
 
-    public Message(String message, ChatSession idChatSession) {
+    public Message(String message, ChatSession idChatSession, MessageType type) {
         this.message = message;
         this.idChatSession = idChatSession;
+        this.type = type;
         generateId();
     }
 
@@ -93,5 +99,13 @@ public class Message {
 
     public void setIdChatSession(ChatSession idChatSession) {
         this.idChatSession = idChatSession;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public void setType(MessageType type) {
+        this.type = type;
     }
 }

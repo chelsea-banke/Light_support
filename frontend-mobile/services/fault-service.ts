@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/axiosInstance";
 
 const createFault = async (fault: any): Promise<any> => {
-    return axiosInstance.post("/fault/create-fault", fault)
+    return axiosInstance.post("/fault/create", fault)
         .then((res) => res.data)
         .catch((error) => {
             if (error.response) {

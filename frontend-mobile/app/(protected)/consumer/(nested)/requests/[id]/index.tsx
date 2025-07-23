@@ -25,7 +25,7 @@ const ChatScreen = () => {
       text: msg.content,
       createdAt: toDate(msg.createdDate), // Adjusting date format
       user: {
-        _id: msg.type === "sent" ? 1 : 2,
+        _id: msg.type === "SENT" ? 1 : 2,
         name: "John Doe",
       },
     };
@@ -34,6 +34,8 @@ const ChatScreen = () => {
   const fetchMessages = async () => {
     try {
       const msges = await messagingService.getMessages(id);
+      console.log("Fetched messages:", msges);
+      
       setMessages(
         msges.map((msg: any) => {
           return formatMessage(msg);
@@ -87,6 +89,7 @@ const ChatScreen = () => {
     wsService.sendMessage({
       "content": text,
       "chatId": id,
+      "type": "SENT",
     })
   };
 
