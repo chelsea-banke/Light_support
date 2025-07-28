@@ -1,19 +1,9 @@
 package com.lightsupport.backend.dto.requests;
 
-import com.lightsupport.backend.models.types.Status;
-
-public class CreateTicketRequestDto {
-    private String priority;
+public class CreateQueryTicketDto {
     private String idUser;
     private String idFault;
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
+    private String description;
 
     public String getIdUser() {
         return idUser;
@@ -29,5 +19,13 @@ public class CreateTicketRequestDto {
 
     public void setIdFault(String idFault) {
         this.idFault = idFault;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

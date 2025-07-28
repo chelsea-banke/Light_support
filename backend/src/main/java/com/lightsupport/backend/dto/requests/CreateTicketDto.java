@@ -1,6 +1,6 @@
 package com.lightsupport.backend.dto.requests;
 
-public class CreateInterventionTicketDto {
+public class CreateTicketDto {
     private String assetId;
     private String faultId;
     private String description;

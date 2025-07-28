@@ -10,9 +10,6 @@ public class TicketDto {
     private Status status;
     private String idUser;
     private String idFault;
-    private BigDecimal longitude;
-    private BigDecimal latitude;
-    private String address;
 
     public String getId() {
         return id;
@@ -52,29 +49,5 @@ public class TicketDto {
 
     public void setIdFault(String idFault) {
         this.idFault = idFault;
-    }
-
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

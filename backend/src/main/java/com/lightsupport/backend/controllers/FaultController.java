@@ -1,6 +1,7 @@
 package com.lightsupport.backend.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lightsupport.backend.dto.FaultUpdateDto;
 import com.lightsupport.backend.dto.requests.CreateFaultRequestDto;
 import com.lightsupport.backend.dto.response.FaultResponseDto;
 import com.lightsupport.backend.models.ChatSession;

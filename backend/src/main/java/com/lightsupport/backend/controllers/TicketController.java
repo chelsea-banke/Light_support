@@ -1,8 +1,8 @@
 package com.lightsupport.backend.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.lightsupport.backend.dto.TicketDto;
-import com.lightsupport.backend.dto.requests.CreateTicketRequestDto;
+import com.lightsupport.backend.dto.requests.CreateQueryTicketDto;
+import com.lightsupport.backend.dto.requests.CreateTicketDto;
 import com.lightsupport.backend.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ public class TicketController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTicket(@RequestBody CreateTicketRequestDto createTicketRequestDto){
-        return ResponseEntity.ok(ticketService.createTicket(createTicketRequestDto));
+    public ResponseEntity<?> createTicket(@RequestBody CreateTicketDto createTicketDto){
+        return ResponseEntity.ok(ticketService.createTicket(createTicketDto));
     }
 
     @GetMapping("/get-all")

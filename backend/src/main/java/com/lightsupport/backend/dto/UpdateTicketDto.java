@@ -1,15 +1,15 @@
 package com.lightsupport.backend.dto;
 
-public class UpdateTicketDescriptionDto {
-    private String ticketId;
+public class UpdateTicketDto {
+    private String id;
     private String description;
 
-    public String getTicketId() {
-        return ticketId;
+    public String getId() {
+        return id;
     }
 
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {

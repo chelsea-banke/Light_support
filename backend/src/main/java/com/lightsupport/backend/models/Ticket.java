@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -22,22 +21,16 @@ public class Ticket {
     @Column(name = "priority", nullable = false)
     private String priority;
 
+    @Column(name = "description")
+    private String description;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(name = "longitude")
-    private BigDecimal longitude;
-
-    @Column(name = "latitude")
-    private BigDecimal latitude;
-
-    @Column(name = "address")
-    private String address;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     private User idUser;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -45,12 +38,18 @@ public class Ticket {
     @JoinColumn(name = "id_fault", nullable = false)
     private Fault idFault;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "id_asset")
+    private Asset idAsset;
+
     public Ticket(){}
 
-    public Ticket(String priority, User idUser, Fault idFault) {
-        this.priority = priority;
+    public Ticket(User idUser, Fault idFault, String description) {
+        this.priority = "MEDIUM";
         this.idUser = idUser;
         this.idFault = idFault;
+        this.description = description;
         this.status = Status.PENDING;
         generateId();
     }
@@ -100,27 +99,19 @@ public class Ticket {
         this.idFault = idFault;
     }
 
-    public BigDecimal getLongitude() {
-        return longitude;
+    public Asset getIdAsset() {
+        return idAsset;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
+    public void setIdAsset(Asset idAsset) {
+        this.idAsset = idAsset;
     }
 
-    public BigDecimal getLatitude() {
-        return latitude;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

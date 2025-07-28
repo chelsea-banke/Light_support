@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/ai-agent/**").permitAll()
 
                         .requestMatchers("/asset/**").hasRole("FIELD_TECH")
 

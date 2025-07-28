@@ -1,7 +1,9 @@
 package com.lightsupport.backend.configs;
 
+import com.lightsupport.backend.dto.FaultUpdateDto;
 import com.lightsupport.backend.dto.MessageDto;
 import com.lightsupport.backend.dto.TicketDto;
+import com.lightsupport.backend.dto.requests.CreateTicketDto;
 import com.lightsupport.backend.dto.requests.RegisterFieldTechRequestDto;
 import com.lightsupport.backend.dto.response.LoginResponseDto;
 import com.lightsupport.backend.models.Answer;
@@ -69,6 +71,13 @@ public class ModelMapperConfig {
             protected void configure() {
                 map().setIdUser(source.getIdUser().getId());
                 map().setIdFault(source.getIdFault().getId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<CreateTicketDto, FaultUpdateDto>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getFaultId());
             }
         });
 

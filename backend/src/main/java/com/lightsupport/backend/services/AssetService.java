@@ -27,10 +27,13 @@ public class AssetService {
     }
 
     public List<AssetDto> getAssets(){
-        List<AssetDto> AssetDtos =  assetRepo.findAll().
+        return assetRepo.findAll().
                 stream().map(asset ->
                         modelMapper.map(asset, AssetDto.class))
                 .toList();
-        return AssetDtos;
+    }
+
+    public Boolean isAssetRegistered(String asseId){
+        return assetRepo.findById(asseId).isPresent();
     }
 }

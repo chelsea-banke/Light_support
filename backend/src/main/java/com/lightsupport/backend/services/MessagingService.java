@@ -85,6 +85,7 @@ public class MessagingService {
         payload.put("id", message.getId());
         payload.put("chatId", message.getChatId());
         payload.put("content", message.getContent());
+        payload.put("faultId", chatSessionRepo.findById(message.getChatId()).get().getIdFault().getId());
         payload.put("preload", false);
 
         // Set headers

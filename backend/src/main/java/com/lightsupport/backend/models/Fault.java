@@ -1,6 +1,7 @@
 package com.lightsupport.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.lightsupport.backend.models.types.FaultType;
 import com.lightsupport.backend.models.types.Location;
 import com.lightsupport.backend.models.types.Status;
 import jakarta.persistence.*;
@@ -29,15 +30,6 @@ public class Fault {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(name = "longitude")
-    private BigDecimal longitude;
-
-    @Column(name = "latitude")
-    private BigDecimal latitude;
-
-    @Column(name = "address")
-    private String address;
-
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "created_date", nullable = false)
@@ -53,10 +45,15 @@ public class Fault {
     @JoinColumn(name = "id_user", nullable = false)
     private User idUser;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private FaultType type;
+
     public Fault(String description, User idUser) {
         this.description = description;
         this.idUser = idUser;
         this.status = Status.ACTIVE;
+        this.type = FaultType.STANDARD;
         this.generateId();
     }
 
@@ -117,27 +114,11 @@ public class Fault {
         this.idUser = idUser;
     }
 
-    public BigDecimal getLongitude() {
-        return longitude;
+    public FaultType getType() {
+        return type;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setType(FaultType type) {
+        this.type = type;
     }
 }

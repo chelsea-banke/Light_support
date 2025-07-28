@@ -39,8 +39,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
             // Convert JSON string to DTO
             JsonUtil jsonUtil = new JsonUtil();
-            jsonUtil.printOut(message.getPayload());
             MessageDto incoming = objectMapper.readValue(message.getPayload(), MessageDto.class);
+            jsonUtil.printOut("incomming: "+incoming);
             incoming.setChatId(chatSessionRepo.findByIdFault_Id(incoming.getChatId()).get(0).getId());
 
             MessageDto sentMessage = messagingService.saveMessage(incoming);
