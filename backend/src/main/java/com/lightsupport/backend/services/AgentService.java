@@ -6,6 +6,7 @@ import com.lightsupport.backend.dto.requests.CreateTicketDto;
 import com.lightsupport.backend.models.Asset;
 import com.lightsupport.backend.models.Ticket;
 import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.types.FaultType;
 import com.lightsupport.backend.models.types.Status;
 import com.lightsupport.backend.repositories.AssetRepo;
 import com.lightsupport.backend.repositories.TicketRepo;
@@ -46,9 +47,23 @@ public class AgentService {
     @Transactional
     public Boolean createQueryTicket(CreateTicketDto createTicketDto){
         FaultUpdateDto faultUpdateDto = modelMapper.map(createTicketDto, FaultUpdateDto.class);
-        faultService.updateDescription(faultUpdateDto);
+        faultUpdateDto.setType(FaultType.ADVANCED_QUERY);
         faultUpdateDto.setStatus(Status.PENDING);
+        faultService.updateDescription(faultUpdateDto);
         faultService.updateFaultStatus(faultUpdateDto);
+        faultService.updateType(faultUpdateDto);
+        ticketService.createTicket(createTicketDto);
+        return true;
+    }
+
+    @Transactional
+    public Boolean createInterventionTicket(CreateTicketDto createTicketDto){
+        FaultUpdateDto faultUpdateDto = modelMapper.map(createTicketDto, FaultUpdateDto.class);
+        faultUpdateDto.setStatus(Status.PENDING);
+        faultUpdateDto.setType(FaultType.FIELD_INTERVENSION);
+        faultService.updateDescription(faultUpdateDto);
+        faultService.updateFaultStatus(faultUpdateDto);
+        faultService.updateType(faultUpdateDto);
         ticketService.createTicket(createTicketDto);
         return true;
     }

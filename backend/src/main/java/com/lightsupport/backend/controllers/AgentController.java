@@ -1,13 +1,10 @@
 package com.lightsupport.backend.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lightsupport.backend.dto.FaultUpdateDto;
 import com.lightsupport.backend.dto.requests.CreateTicketDto;
 import com.lightsupport.backend.services.AgentService;
 import com.lightsupport.backend.services.FaultService;
-import com.lightsupport.backend.utils.JsonUtil;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +30,11 @@ public class AgentController {
     @PostMapping("/create-query-ticket")
     public ResponseEntity<?> createQueryTicket(@RequestBody CreateTicketDto createTicketDto){
         return ResponseEntity.ok(agentService.createQueryTicket(createTicketDto));
+    }
+
+    @PostMapping("/create-intervention-ticket")
+    public ResponseEntity<?> createInterventionTicket(@RequestBody CreateTicketDto createTicketDto){
+        return ResponseEntity.ok(agentService.createInterventionTicket(createTicketDto));
     }
 
     @PostMapping("/close-fault")

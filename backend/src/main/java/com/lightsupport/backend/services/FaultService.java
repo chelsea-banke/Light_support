@@ -9,6 +9,7 @@ import com.lightsupport.backend.dto.response.FaultResponseDto;
 import com.lightsupport.backend.models.ChatSession;
 import com.lightsupport.backend.models.Fault;
 import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.types.FaultType;
 import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.models.types.Status;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
@@ -78,15 +79,17 @@ public class FaultService {
     }
 
     public Boolean updateDescription(FaultUpdateDto faultUpdateDto){
-        Fault fault = faultRepo.findById(faultUpdateDto.getId()).orElseThrow(()-> new EntityNotFoundException("Fault not found"));
+        Fault fault = faultRepo.findById(faultUpdateDto.getId())
+                .orElseThrow(()-> new EntityNotFoundException("Fault not found"));
         fault.setDescription(faultUpdateDto.getDescription());
         faultRepo.save(fault);
         return true;
     }
 
-    public Boolean updateFault(FaultUpdateDto faultUpdateDto){
-        Fault fault = faultRepo.findById(faultUpdateDto.getId()).orElseThrow(()-> new EntityNotFoundException("Fault not found"));
-        fault.setStatus(faultUpdateDto.getStatus());
+    public Boolean updateType(FaultUpdateDto faultUpdateDto){
+        Fault fault = faultRepo.findById(faultUpdateDto.getId())
+                .orElseThrow(()-> new EntityNotFoundException("Fault not found"));
+        fault.setType(faultUpdateDto.getType());
         faultRepo.save(fault);
         return true;
     }
