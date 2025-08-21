@@ -30,8 +30,8 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_user")
-    private User idUser;
+    @JoinColumn(name = "id_field_support")
+    private User idFieldSupport;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -45,9 +45,9 @@ public class Ticket {
 
     public Ticket(){}
 
-    public Ticket(User idUser, Fault idFault, String description) {
+    public Ticket(User idFieldSupport, Fault idFault, String description) {
         this.priority = "MEDIUM";
-        this.idUser = idUser;
+        this.idFieldSupport = idFieldSupport;
         this.idFault = idFault;
         this.description = description;
         this.status = Status.PENDING;
@@ -83,12 +83,12 @@ public class Ticket {
         this.status = status;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getIdFieldSupport() {
+        return idFieldSupport;
     }
 
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
+    public void setIdFieldSupport(User idFieldSupport) {
+        this.idFieldSupport = idFieldSupport;
     }
 
     public Fault getIdFault() {

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface TicketRepo extends JpaRepository <Ticket, String> {
 
-    Optional<List<Ticket>> findByIdUserId(String userId);
+    Optional<List<Ticket>> findByIdFieldSupport_Id(String userId);
 }

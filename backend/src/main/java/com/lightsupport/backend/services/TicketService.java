@@ -36,7 +36,7 @@ public class TicketService {
 
     public List<TicketDto> getAllTickets(String matricule) throws JsonProcessingException {
 
-        List<TicketDto> ticketDtos = ticketRepo.findByIdUserId(matricule).get()
+        List<TicketDto> ticketDtos = ticketRepo.findByIdFieldSupport_Id(matricule).get()
                 .stream().map(
                         ticket -> modelMapper.map(ticket, TicketDto.class))
                 .toList();
@@ -46,7 +46,7 @@ public class TicketService {
 
     public Boolean createTicket(CreateTicketDto ticketDto){
         Ticket ticket = new Ticket(
-                faultRepo.findById(ticketDto.getFaultId()).get().getIdUser(),
+                faultRepo.findById(ticketDto.getFaultId()).get().getIdDeskSupport(),
                 faultRepo.findById(ticketDto.getFaultId()).get(),
                 ticketDto.getDescription()
         );

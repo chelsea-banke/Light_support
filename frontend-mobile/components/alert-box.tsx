@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     container: {
         width: "95%",
         backgroundColor: '#fff',
+        top: "-10%",
         alignSelf: "center",
         borderRadius: 10,
         overflow: "hidden"

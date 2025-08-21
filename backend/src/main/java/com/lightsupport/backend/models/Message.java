@@ -1,5 +1,6 @@
 package com.lightsupport.backend.models;
 
+import com.lightsupport.backend.models.types.MessageSource;
 import com.lightsupport.backend.models.types.MessageType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,41 +24,33 @@ public class Message {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "message", nullable = false)
-    private String message;
+    @Column(name = "content", nullable = false)
+    private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false )
-    private MessageType type;
+    @Column(name = "source", nullable = false )
+    private MessageSource source;
 
     @CreationTimestamp
     @ColumnDefault("CURRENT_DATE")
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @CreationTimestamp
-    @ColumnDefault("CURRENT_DATE")
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_chat_session", nullable = false)
-    private ChatSession idChatSession;
+    @JoinColumn(name = "id_fault", nullable = false)
+    private Fault idFault;
 
     @PrePersist
     public void generateId() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Message() {
-
-    }
-
-    public Message(String message, ChatSession idChatSession, MessageType type) {
-        this.message = message;
-        this.idChatSession = idChatSession;
-        this.type = type;
+    public Message(){}
+    public Message(String content, Fault idFault, MessageSource source) {
+        this.content = content;
+        this.idFault = idFault;
+        this.source = source;
         generateId();
     }
 
@@ -69,12 +62,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -85,27 +78,19 @@ public class Message {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
+    public Fault getIdFault() {
+        return idFault;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setIdFault(Fault idFault) {
+        this.idFault = idFault;
     }
 
-    public ChatSession getIdChatSession() {
-        return idChatSession;
+    public MessageSource getSource() {
+        return source;
     }
 
-    public void setIdChatSession(ChatSession idChatSession) {
-        this.idChatSession = idChatSession;
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public void setType(MessageType type) {
-        this.type = type;
+    public void setSource(MessageSource source) {
+        this.source = source;
     }
 }

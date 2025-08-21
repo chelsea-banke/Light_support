@@ -42,16 +42,22 @@ public class Fault {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_user", nullable = false)
-    private User idUser;
+    @JoinColumn(name = "id_client", nullable = false)
+    private User idClient;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "id_desk_support", nullable = false)
+    private User idDeskSupport;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private FaultType type;
 
-    public Fault(String description, User idUser) {
+    public Fault(String description, User idClient, User idDeskSupport) {
         this.description = description;
-        this.idUser = idUser;
+        this.idClient = idClient;
+        this.idDeskSupport = idDeskSupport;
         this.status = Status.ACTIVE;
         this.type = FaultType.STANDARD;
         this.generateId();
@@ -106,12 +112,20 @@ public class Fault {
         this.updateDate = updateDate;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getIdClient() {
+        return idClient;
     }
 
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
+    public void setIdClient(User idClient) {
+        this.idClient = idClient;
+    }
+
+    public User getIdDeskSupport() {
+        return idDeskSupport;
+    }
+
+    public void setIdDeskSupport(User idDeskSupport) {
+        this.idDeskSupport = idDeskSupport;
     }
 
     public FaultType getType() {

@@ -1,5 +1,6 @@
 package com.lightsupport.backend.dto;
 
+import com.lightsupport.backend.models.types.MessageSource;
 import com.lightsupport.backend.models.types.MessageType;
 
 import java.time.LocalDateTime;
@@ -8,16 +9,17 @@ public class MessageDto {
     private String id;
     private String content;
     private LocalDateTime createdDate;
-    private String chatId;
+    private String faultId;
     private MessageType type;
+    private MessageSource source;
 
     public MessageDto() {
     }
 
-    public MessageDto(String content, String chatId, MessageType type) {
+    public MessageDto(String content, String faultId, MessageSource source) {
         this.content = content;
-        this.chatId = chatId;
-        this.type = type;
+        this.faultId = faultId;
+        this.source = source;
     }
 
     public String getId() {
@@ -44,12 +46,12 @@ public class MessageDto {
         this.createdDate = createdDate;
     }
 
-    public String getChatId() {
-        return chatId;
+    public String getFaultId() {
+        return faultId;
     }
 
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
+    public void setFaultId(String faultId) {
+        this.faultId = faultId;
     }
 
     public MessageType getType() {
@@ -58,5 +60,13 @@ public class MessageDto {
 
     public void setType(MessageType type) {
         this.type = type;
+    }
+
+    public MessageSource getSource() {
+        return source;
+    }
+
+    public void setSource(MessageSource source) {
+        this.source = source;
     }
 }

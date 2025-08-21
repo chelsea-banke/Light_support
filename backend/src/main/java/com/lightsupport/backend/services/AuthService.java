@@ -146,6 +146,43 @@ public class AuthService {
         return loginResponseDto;
     }
 
+    public LoginResponseDto supportLogin(LoginRequestDto request) {
+        // getting ID for user with passed in credentials
+        String userId = request.getIdentifier();
+        try {
+            // 1. Authenticate credentials
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userId,
+                            request.getPassword()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Invalid credentials", e);
+        }
+
+        // 2. Load user details after successful authentication
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+        User user = (User) userDetails;
+
+        // 3. Generate tokens
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        // 4. Persist refresh token in DB
+        LocalDate expiryDate = Instant.now().plusSeconds(604800).atZone(ZoneId.systemDefault()).toLocalDate();
+        RefreshToken rt = new RefreshToken(user, refreshToken, LocalDateTime.now(), expiryDate.atStartOfDay());
+        refreshTokenRepo.save(rt);
+
+        // 5. Return both tokens to client
+        LoginResponseDto loginResponseDto = modelMapper.map(user, LoginResponseDto.class);
+        loginResponseDto.setIdentifier(user.getId());
+        loginResponseDto.setAccessToken(accessToken);
+        loginResponseDto.setRefreshToken(refreshToken);
+
+        return loginResponseDto;
+    }
+
     // -------------- Refresh Access Token --------------
 
     @Transactional

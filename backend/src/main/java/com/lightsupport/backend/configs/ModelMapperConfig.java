@@ -1,15 +1,13 @@
 package com.lightsupport.backend.configs;
 
+import com.lightsupport.backend.dto.FaultDto;
 import com.lightsupport.backend.dto.FaultUpdateDto;
 import com.lightsupport.backend.dto.MessageDto;
 import com.lightsupport.backend.dto.TicketDto;
 import com.lightsupport.backend.dto.requests.CreateTicketDto;
 import com.lightsupport.backend.dto.requests.RegisterFieldTechRequestDto;
 import com.lightsupport.backend.dto.response.LoginResponseDto;
-import com.lightsupport.backend.models.Answer;
-import com.lightsupport.backend.models.Message;
-import com.lightsupport.backend.models.Ticket;
-import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.*;
 import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.models.types.Role;
 import org.modelmapper.Converter;
@@ -37,18 +35,8 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<Message, MessageDto>() {
             @Override
             protected void configure() {
-                map().setChatId(source.getIdChatSession().getId());
-                map().setContent(source.getMessage());
-                map().setType(source.getType());
-            }
-        });
-
-        modelMapper.addMappings(new PropertyMap<Answer, MessageDto>() {
-            @Override
-            protected void configure() {
-                map().setContent(source.getAnswer());
-                map().setCreatedDate(source.getSendDate());
-                map().setType(MessageType.RECIEVED);
+                map().setFaultId(source.getIdFault().getId());
+                map().setContent(source.getContent());
             }
         });
 
@@ -69,8 +57,16 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<Ticket, TicketDto>() {
             @Override
             protected void configure() {
-                map().setIdUser(source.getIdUser().getId());
-                map().setIdFault(source.getIdFault().getId());
+                map().setFieldSupportId(source.getIdFieldSupport().getId());
+                map().setFaultId(source.getIdFault().getId());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<Fault, FaultDto>() {
+            @Override
+            protected void configure() {
+                map().setClientId(source.getIdClient().getContact());
+                map().setDeskSupportId(source.getIdDeskSupport().getId());
             }
         });
 

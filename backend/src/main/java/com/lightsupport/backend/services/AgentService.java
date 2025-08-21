@@ -73,7 +73,7 @@ public class AgentService {
         User fieldTech = userRepo.findAvailableFieldTech()
                 .orElseThrow(() -> new EntityNotFoundException("no available fieldTech found"));
         Ticket ticket = ticketRepo.findById(ticketId).orElseThrow(() -> new EntityNotFoundException("ticket not found"));
-        ticket.setIdUser(fieldTech);
+        ticket.setIdFieldSupport(fieldTech);
         return true;
     }
 }

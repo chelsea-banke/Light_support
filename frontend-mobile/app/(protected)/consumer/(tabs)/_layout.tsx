@@ -10,10 +10,10 @@ export default function Layout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#c2e600',
-        tabBarInactiveTintColor: '#fff',
+        tabBarActiveTintColor: '#0d6ca7',
+        tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          backgroundColor: '#0f6da9',
+          backgroundColor: 'white',
           paddingBottom: 10,
           paddingTop: 10,
           height: 80,

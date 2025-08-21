@@ -28,12 +28,18 @@ public class FaultController {
         this.faultRepo = faultRepo;
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<?> getFault(@RequestParam String faultId){
+        return ResponseEntity.ok(faultService.getFault(faultId));
+    }
+
     @GetMapping("/get-all")
     public List<FaultResponseDto> getAllFaults(Authentication authentication) throws JsonProcessingException {
         String clientId = authentication.getName();
 //        return faultRepo.findByIdUserId(authentication.getName());
         return faultService.getAllFaults(clientId);
     }
+
     @PostMapping("/create")
     public ResponseEntity<?> createFault(@RequestBody final CreateFaultRequestDto createFaultRequestDto, Authentication authentication) {
         String clientId = authentication.getName();

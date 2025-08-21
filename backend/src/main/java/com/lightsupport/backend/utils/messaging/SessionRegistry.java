@@ -1,4 +1,4 @@
-package com.lightsupport.backend.utils.websocket;
+package com.lightsupport.backend.utils.messaging;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;

@@ -9,6 +9,8 @@ export const getFaults = createAsyncThunk<Fault[]>
                 return response.data
             })
             .catch((error) => {
+                console.log(error);
+                
                 if (error.response) {
                     console.error('Error response:', error.response.data)
                     return thunkAPI.rejectWithValue(error.response.data.message || 'Faults Fetch failed')

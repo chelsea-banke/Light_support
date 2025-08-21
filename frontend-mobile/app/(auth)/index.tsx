@@ -21,6 +21,7 @@ export default function WelcomeScreen() {
   }, [])
 
   const connectToServer = async () => {
+    
     if (!ipAddress.trim()) {
       Alert.alert("Validation", "Please enter a valid IP address.");
       return;
@@ -29,6 +30,7 @@ export default function WelcomeScreen() {
     setIsConnecting(true);
     try {
       const response = await axios.get(`http://${ipAddress}:8080/api/auth/ping`); // example endpoint
+      
       if (response.status === 200) {
         setBaseUrl(ipAddress); // Set the base URL for axios
         setWSBaseUrl(ipAddress); // Set the WebSocket base URL
@@ -113,7 +115,7 @@ export default function WelcomeScreen() {
             onPress={connectToServer}
             disabled={isConnecting}
           >
-            <Text className="text-white font-bold">{isConnecting ? 'Connecting...' : 'Connect'}</Text>
+            <Text className="text-white font-bold">{isConnecting ? 'Connecting...' : 'Test Connection'}</Text>
           </TouchableOpacity>
           <Text className='text-center text-gray-600 mt-2 w-full'>Make sure you and server are on the same network</Text>
           

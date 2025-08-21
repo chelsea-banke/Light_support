@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface MessageRepo extends JpaRepository <Message, String> {
 //    void getByIdChatSessionId(ChatSession chatSession);
-    List<Message> findByIdChatSession_Id(String chatSessionId);
+    List<Message> findByIdFault_Id(String chatSessionId);
 }

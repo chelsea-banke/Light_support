@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface FaultRepo extends JpaRepository <Fault, String> {
-    Optional<List<Fault >> findByIdUserId(String userId);
+    Optional<List<Fault >> findByIdClient_Id(String userId);
 }

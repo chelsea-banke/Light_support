@@ -3,6 +3,7 @@ package com.lightsupport.backend.utils.messaging;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lightsupport.backend.dto.MessageDto;
+import com.lightsupport.backend.models.types.MessageSource;
 import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
 import com.lightsupport.backend.services.AIMessagingService;
@@ -13,7 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WebSocketHandler extends TextWebSocketHandler {
+public class WebSocketHandlerLegacy extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private final ChatSessionRepo chatSessionRepo;
@@ -21,7 +22,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final SessionRegistry sessionRegistry;
 
     @Autowired
-    public WebSocketHandler(ChatSessionRepo chatSessionRepo, AIMessagingService messagingService, SessionRegistry sessionRegistry) {
+    public WebSocketHandlerLegacy(ChatSessionRepo chatSessionRepo, AIMessagingService messagingService, SessionRegistry sessionRegistry) {
         this.chatSessionRepo = chatSessionRepo;
         this.messagingService = messagingService;
         this.sessionRegistry = sessionRegistry;
@@ -39,13 +40,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
             JsonUtil jsonUtil = new JsonUtil();
             MessageDto incoming = objectMapper.readValue(message.getPayload(), MessageDto.class);
             jsonUtil.printOut("incomming: "+incoming);
-            incoming.setChatId(chatSessionRepo.findByIdFault_Id(incoming.getChatId()).get(0).getId());
+//            incoming.setChatId(chatSessionRepo.findByIdFault_Id(incoming.getChatId()).get(0).getId());
 
-            MessageDto sentMessage = messagingService.saveMessage(incoming);
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sentMessage)));
-
-            MessageDto recievedMessage = new MessageDto(messagingService.queryAiAgent(sentMessage), sentMessage.getChatId(), MessageType.RECIEVED);
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(messagingService.saveMessage(recievedMessage))));
+//            MessageDto sentMessage = messagingService.saveMessage(incoming);
+//            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(sentMessage)));
+//
+//            MessageDto recievedMessage = new MessageDto(messagingService.queryAiAgent(sentMessage), sentMessage.getChatId(), MessageSource.CLIENT);
+//            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(messagingService.saveMessage(recievedMessage))));
     }
 
     @Override

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { getFaults } from '@/redux/middleware/faults-middleware'
 import faultService from '@/services/fault-service'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function faultRequestsScreen() {
   const alert = useGlobalAlert()
@@ -29,20 +29,25 @@ export default function faultRequestsScreen() {
     }
   }
 
+  useEffect(()=>{
+    console.log("fetching...");
+    dispatch(getFaults())
+  }, [])
+
   return (
-    <View className="flex-1 bg-[#d9efff] px-4 pt-4">
+    <View className="flex-1 bg-white px-4">
       {/* Search & Filter Bar */}
-      <View className="flex-row items-center space-x-2 mb-4">
-        <View className="flex-1 flex-row items-center bg-white rounded-md px-3 py-1 mr-1">
+      <View className="flex-row items-center space-x-2 mb-4 bg-gray-200 rounded-full mt-2">
+        <View className="flex-1 flex-row items-center rounded-md px-3 py-1 mr-1">
           <TextInput
-            placeholder="Search"
+            placeholder="Search..."
             className="ml-2 flex-1 text-gray-700"
             placeholderTextColor="#9ca3af"
           />
           <Feather name="search" size={20} color="#9ca3af" />
         </View>
-
-        <TouchableOpacity className="flex-row items-center px-3 py-4 rounded-md border-b">
+        <Text className='text-4xl mt-[-5px] text-gray-400'>|</Text>
+        <TouchableOpacity className="flex-row items-center px-3 py-4">
           <Text className="mr-1 font-medium text-black">Filter</Text>
           <Ionicons name="filter" size={18} color="black" />
         </TouchableOpacity>
@@ -56,22 +61,22 @@ export default function faultRequestsScreen() {
       </TouchableOpacity>
 
       {/* List of faultuests */}
-      <ScrollView className="space-y-3">
+      <ScrollView className="space-y-3 mx-1">
         {faultsState.faults.map((fault) => (
           <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${fault.id}` as any)} key={fault.id}>
             <View
               key={fault.id}
-              className="bg-white p-3 rounded-t-lg border-b border-gray-800 my-1"
+              className="rounded-lg overflow-hidden border-b border-gray-200 my-1 mb-3 bg-gray-100"
             >
-              <View className="flex-row justify-between items-start mb-1">
+              <View className="flex-row justify-between items-start mb-1 px-2 pt-1">
                 <Text className="font-semibold text-base text-black w-4/5">
-                  {fault.id}
+                  {fault.id.slice(0, 18)}
                 </Text>
-                <Text className="bg-[#b3e700] text-xs text-white font-semibold px-2 rounded-full">
-                  {fault.status}
+                <Text className="bg-[#8cb600] text-xs text-white font-semibold px-2 rounded-full mt-1">
+                  {fault.status.toLocaleLowerCase()}
                 </Text>
               </View>
-              <Text className="text-sm text-gray-700 leading-snug">
+              <Text className="text-sm text-gray-700 leading-snug bg-gray-200 p-2">
                 {fault.description}
               </Text>
             </View>

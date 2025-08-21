@@ -2,9 +2,11 @@ package com.lightsupport.backend.services;
 
 import com.lightsupport.backend.dto.MessageDto;
 import com.lightsupport.backend.models.ChatSession;
+import com.lightsupport.backend.models.Fault;
 import com.lightsupport.backend.models.Message;
 import com.lightsupport.backend.repositories.AnswerRepo;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
+import com.lightsupport.backend.repositories.FaultRepo;
 import com.lightsupport.backend.repositories.MessageRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -18,46 +20,33 @@ import java.util.*;
 import java.util.Map;
 
 @Service
-public class MessagingService {
+public class AIMessagingService {
     private final ChatSessionRepo chatSessionRepo;
     private final MessageRepo messageRepo;
     private final ModelMapper modelMapper;
     private final AnswerRepo answerRepo;
+    private final FaultRepo faultRepo;
 
     @Autowired
-    public MessagingService(ChatSessionRepo chatSessionRepo, MessageRepo messageRepo, ModelMapper modelMapper, AnswerRepo answerRepo) {
+    public AIMessagingService(ChatSessionRepo chatSessionRepo, MessageRepo messageRepo, ModelMapper modelMapper, AnswerRepo answerRepo,
+                              FaultRepo faultRepo) {
         this.chatSessionRepo = chatSessionRepo;
         this.messageRepo = messageRepo;
         this.modelMapper = modelMapper;
         this.answerRepo = answerRepo;
+        this.faultRepo = faultRepo;
     }
 
-    public MessageDto saveMessage(MessageDto messageDto) {
-        Optional<ChatSession> chatSession = chatSessionRepo.findById(messageDto.getChatId());
-        if(chatSession.isPresent()) {
-            ChatSession chatSessionObj = chatSession.get();
-            Message message = new Message(messageDto.getContent(), chatSessionObj, messageDto.getType());
-            return modelMapper.map(messageRepo.save(message), MessageDto.class);
-        }
-        else{
-            throw new EntityNotFoundException("ChatSession not found with ID: " + messageDto.getChatId());
-        }
+    public void saveMessage(MessageDto messageDto) {
+        Fault fault = faultRepo.findById(messageDto.getFaultId()).orElseThrow(()->new EntityNotFoundException("ChatSession not found with ID: " + messageDto.getFaultId()));
+        Message message = new Message(messageDto.getContent(), fault, messageDto.getSource());
+        modelMapper.map(messageRepo.save(message), MessageDto.class);
     }
 
     public ResponseEntity<?> getAllMessages(String faultId) {
-        List<ChatSession> chatSessionOptional = chatSessionRepo.findByIdFault_Id(faultId);
-        if (chatSessionOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chat session not found");
-        }
-
-        ChatSession chatSession = chatSessionOptional.get(0);
-        List<MessageDto> messages = new ArrayList<>();
-
-        messages.addAll(
-                messageRepo.findByIdChatSession_Id(chatSession.getId())
-                        .stream().map(message -> modelMapper.map(message, MessageDto.class))
-                        .toList()
-        );
+        List<MessageDto> messages = new ArrayList<>(messageRepo.findByIdFault_Id(faultId)
+                .stream().map(message -> modelMapper.map(message, MessageDto.class))
+                .toList());
 
         return ResponseEntity.ok(messages);
     }
@@ -68,9 +57,8 @@ public class MessagingService {
         // Prepare payload safely (null-safe)
         Map<String, Object> payload = new HashMap<>();
         payload.put("id", message.getId());
-        payload.put("chatId", message.getChatId());
         payload.put("content", message.getContent());
-        payload.put("faultId", chatSessionRepo.findById(message.getChatId()).get().getIdFault().getId());
+        payload.put("faultId", message.getFaultId());
         payload.put("preload", false);
 
         // Set headers

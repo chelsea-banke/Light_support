@@ -2,14 +2,12 @@ package com.lightsupport.backend.dto;
 
 import com.lightsupport.backend.models.types.Status;
 
-import java.math.BigDecimal;
-
 public class TicketDto {
     private String id;
     private String priority;
     private Status status;
-    private String idUser;
-    private String idFault;
+    private String fieldSupportId;
+    private String faultId;
 
     public String getId() {
         return id;
@@ -35,19 +33,19 @@ public class TicketDto {
         this.status = status;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getFieldSupportId() {
+        return fieldSupportId;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setFieldSupportId(String fieldSupportId) {
+        this.fieldSupportId = fieldSupportId;
     }
 
-    public String getIdFault() {
-        return idFault;
+    public String getFaultId() {
+        return faultId;
     }
 
-    public void setIdFault(String idFault) {
-        this.idFault = idFault;
+    public void setFaultId(String faultId) {
+        this.faultId = faultId;
     }
 }

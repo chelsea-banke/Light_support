@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/axiosInstance";
 
 const getMessages = async (faultId: any): Promise<any> => {
-    return axiosInstance.get("/messages/get-all", { params: { faultId } })
+    return axiosInstance.get(`/messages/get-all?faultId=${faultId}`)
         .then((res) => res.data)
         .catch((error) => {
             if (error.response) {

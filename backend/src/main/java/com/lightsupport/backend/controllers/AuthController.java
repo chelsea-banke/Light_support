@@ -48,6 +48,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.fieldTechLogin(loginRequest));
     }
 
+    @PostMapping("/login-support")
+    public ResponseEntity<?> loginSupport(@RequestBody LoginRequestDto loginRequest) throws JsonProcessingException {
+        return ResponseEntity.ok(authService.supportLogin(loginRequest));
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody LogoutRequestDto logoutRequestDto) throws JsonProcessingException {
         authService.logout(logoutRequestDto);

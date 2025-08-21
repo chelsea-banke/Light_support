@@ -13,6 +13,7 @@ export const AppInput = ({ id, warningTextId, lengthCriteriaId, lengthCriteriaId
                 required={required}
                 placeholder={placeholder}
                 className="mt-1 text-sm block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                onChange={(e) => onChangehandler(e.target.value)}
             />
         </div>
     )

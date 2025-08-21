@@ -1,19 +1,33 @@
-export const RequestsListComponent = () => {
+import { useState } from "react";
+import '../requests.css'
 
-	const requests = new Array(100).fill("XXXX-XXXX-XXXX");
+export const RequestsListComponent = ({ requests, selecRequestHandler }) => {
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const activeStyle = "bg-[#a8ca38]";
+
+  const selectRequest = (request)=>{
+    setSelectedRequest(request);
+    selecRequestHandler(request);
+  }
+
+  if (requests === null) {
+    return <div>No requests available</div>;
+  }
 
   return (
-    <div className="space-y-2 scroll-list h-[85vh]">
-      	{requests.map((req, index) => (
-					<div key={index} className="px-4 py-2 rounded-md hover:bg-[#d1edff] cursor-pointer bg-white flex gap-2 transition-all">
-            <div className="border-r-2 pr-3">
-						  <div className="text-sm font-semibold text-gray-700 font-mono tracking-wider">{req}</div>
-						  <div className="text-xs">10:30pm - <span className="text-green-600 font-semibold"> ongoing</span></div>
-            </div>
-            <div className="text-sm font-medium text-gray-500">
-              <div className="text-[#0d69a5]">John Doe</div>
-              <div className="text-xs">612-345-678</div>
-            </div>
+    <div className="space-y-2 scroll-list request-list-component">
+      	{requests.map((request) => (
+					<div className={`px-4 py-2 rounded-md hover:bg-[#d1edff] hover:scale-105 cursor-pointer flex gap-2 transition-all ${selectedRequest === request ? activeStyle : 'bg-white'}`}
+            onClick={() => selectRequest(request)}>
+              <div className="border-r-2 pr-3">
+					  	  <div className="text-sm font-semibold text-gray-700 font-mono tracking-wider">{request.id.slice(0, 13)}...</div>
+					  	  <div className="text-xs">{request.createdDate.slice(0, 10)} - <span className="text-green-600 font-semibold"> {request.status.toLowerCase()}</span></div>
+              </div>
+              <div className="text-sm font-medium text-gray-500">
+                <div className="text-[#0d69a5]">John Doe</div>
+                <div className="text-xs">612-345-678</div>
+              </div>
 					</div>
 				))}
     </div>
