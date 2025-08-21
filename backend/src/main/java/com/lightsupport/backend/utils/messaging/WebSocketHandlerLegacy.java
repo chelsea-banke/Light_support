@@ -1,14 +1,12 @@
-package com.lightsupport.backend.utils.websocket;
+package com.lightsupport.backend.utils.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lightsupport.backend.dto.MessageDto;
-import com.lightsupport.backend.models.Message;
 import com.lightsupport.backend.models.types.MessageType;
 import com.lightsupport.backend.repositories.ChatSessionRepo;
-import com.lightsupport.backend.services.MessagingService;
+import com.lightsupport.backend.services.AIMessagingService;
 import com.lightsupport.backend.utils.JsonUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -19,11 +17,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private final ChatSessionRepo chatSessionRepo;
-    private final MessagingService messagingService;
+    private final AIMessagingService messagingService;
     private final SessionRegistry sessionRegistry;
 
     @Autowired
-    public WebSocketHandler(ChatSessionRepo chatSessionRepo, MessagingService messagingService, SessionRegistry sessionRegistry) {
+    public WebSocketHandler(ChatSessionRepo chatSessionRepo, AIMessagingService messagingService, SessionRegistry sessionRegistry) {
         this.chatSessionRepo = chatSessionRepo;
         this.messagingService = messagingService;
         this.sessionRegistry = sessionRegistry;

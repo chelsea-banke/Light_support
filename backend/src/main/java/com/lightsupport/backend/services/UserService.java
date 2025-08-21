@@ -1,4 +1,4 @@
 package com.lightsupport.backend.services;
 
-public class MessagingService {
+public class UserService {
 }

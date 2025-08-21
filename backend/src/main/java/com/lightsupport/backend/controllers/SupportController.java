@@ -1,4 +1,4 @@
 package com.lightsupport.backend.controllers;
 
-public class ChatController {
+public class SupportController {
 }
