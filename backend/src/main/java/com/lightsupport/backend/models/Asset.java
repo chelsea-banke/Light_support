@@ -1,5 +1,6 @@
 package com.lightsupport.backend.models;
 
+import com.lightsupport.backend.models.types.AssetType;
 import com.lightsupport.backend.models.types.Location;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,8 +18,9 @@ public class Asset {
     @Column(name = "id", nullable = false)
     private String id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private String type;
+    private AssetType type;
 
     @Column(name = "longitude", nullable = false)
     private BigDecimal longitude;
@@ -32,7 +34,7 @@ public class Asset {
     public Asset() {
     }
 
-    public Asset(String id, String type, BigDecimal longitude, BigDecimal latitude, String address) {
+    public Asset(String id, AssetType type, BigDecimal longitude, BigDecimal latitude, String address) {
         this.id = id;
         this.type = type;
         this.longitude = longitude;
@@ -48,11 +50,11 @@ public class Asset {
         this.id = id;
     }
 
-    public String getType() {
+    public AssetType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AssetType type) {
         this.type = type;
     }
 

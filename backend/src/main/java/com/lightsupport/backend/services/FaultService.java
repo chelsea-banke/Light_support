@@ -66,11 +66,11 @@ public class FaultService {
 //        return modelMapper.map(faultRepo.findById("2d590092-5783-42c0-95b7-ccded9548798"), FaultResponseDto.class);
     }
 
-    public List<FaultResponseDto> getAllFaults() {
+    public List<FaultDto> getAllFaults() {
         return faultRepo
                 .findAll()
                 .stream().map(fault ->
-                        modelMapper.map(fault, FaultResponseDto.class))
+                        modelMapper.map(fault, FaultDto.class))
                 .toList();
     }
 

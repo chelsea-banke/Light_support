@@ -3,16 +3,22 @@ package com.lightsupport.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lightsupport.backend.dto.TicketDto;
 import com.lightsupport.backend.dto.requests.CreateTicketDto;
+import com.lightsupport.backend.models.Asset;
+import com.lightsupport.backend.models.Fault;
 import com.lightsupport.backend.models.Ticket;
+import com.lightsupport.backend.models.User;
+import com.lightsupport.backend.models.types.FaultType;
 import com.lightsupport.backend.repositories.AssetRepo;
 import com.lightsupport.backend.repositories.FaultRepo;
 import com.lightsupport.backend.repositories.TicketRepo;
 import com.lightsupport.backend.repositories.UserRepo;
+import com.lightsupport.backend.utils.JsonUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketService {
@@ -44,16 +50,26 @@ public class TicketService {
         return ticketDtos;
     }
 
+    public TicketDto getTicket(String faultId) {
+        return modelMapper.map(ticketRepo.findByIdFault_Id(faultId).orElseThrow().get(0), TicketDto.class);
+    }
+
     public Boolean createTicket(CreateTicketDto ticketDto){
+        User fieldSupport = userRepo.findById("QWERTY").orElseThrow();
+        Fault fault = faultRepo.findById(ticketDto.getFaultId()).orElseThrow();
+        Asset asset = assetRepo.findById(ticketDto.getAssetId()).orElseThrow();
+
         Ticket ticket = new Ticket(
-                faultRepo.findById(ticketDto.getFaultId()).get().getIdDeskSupport(),
-                faultRepo.findById(ticketDto.getFaultId()).get(),
+                fieldSupport,
+                fault,
                 ticketDto.getDescription()
         );
-        if(ticketDto.getAssetId() != null){
-            ticket.setIdAsset(assetRepo.findById(ticketDto.getAssetId()).get());
-        }
+
+        ticket.setIdAsset(asset);
         ticketRepo.save(ticket);
+        fault.setType(FaultType.FIELD_INTERVENTION);
+        faultRepo.save(fault);
         return true;
     }
+
 }

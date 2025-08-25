@@ -59,6 +59,7 @@ public class ModelMapperConfig {
             protected void configure() {
                 map().setFieldSupportId(source.getIdFieldSupport().getId());
                 map().setFaultId(source.getIdFault().getId());
+                map().setAssetId(source.getIdAsset().getId());
             }
         });
 

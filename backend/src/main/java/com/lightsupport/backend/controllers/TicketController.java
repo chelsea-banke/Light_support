@@ -30,4 +30,9 @@ public class TicketController {
         String matricule = authentication.getName();
         return ResponseEntity.ok(ticketService.getAllTickets(matricule));
     }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getTicket(@RequestParam String faultId) throws JsonProcessingException {
+        return ResponseEntity.ok(ticketService.getTicket(faultId));
+    }
 }

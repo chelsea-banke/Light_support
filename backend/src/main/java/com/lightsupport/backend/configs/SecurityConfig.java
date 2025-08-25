@@ -1,5 +1,6 @@
 package com.lightsupport.backend.configs;
 
+import com.lightsupport.backend.models.types.Role;
 import com.lightsupport.backend.utils.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,10 +42,13 @@ public class SecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/ai-agent/**").permitAll()
 
-                        .requestMatchers("/asset/**").hasRole("FIELD_TECH")
+                        .requestMatchers("/asset/**")
+                        .hasAnyRole(Role.FIELD_TECH.name(), Role.SUPPORT.name())
 
                         .anyRequest().authenticated()
                 )
+
+
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -7,18 +7,22 @@ import authSlice from './slices/auth-slice'
 import userSlice from './slices/user-slice'
 import faultsSlice from './slices/faults-slice'
 import clientSlice from './slices/client-slice'
+import assetsSlice from './slices/assets-slice'
+import faultSlice from './slices/fault-slice'
 
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['auth', 'user', 'faults', 'client'], // persist only these slices
+  whitelist: ['auth', 'user', 'faults', 'assets', 'client', 'fault'], // persist only these slices
 }
 
 const rootReducer = combineReducers({
   auth: authSlice,
   user: userSlice,
   faults: faultsSlice,
-  client: clientSlice
+  assets: assetsSlice,
+  client: clientSlice,
+  fault: faultSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

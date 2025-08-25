@@ -11,6 +11,8 @@ import User from './pages/protected/user.jsx'
 import { Dashboard } from './pages/protected/dashboard/dashboard.jsx'
 import { Requests } from './pages/protected/requests/requests.jsx'
 import { Assets } from './pages/protected/assets/assets.jsx'
+import { ToastContainer } from 'react-toastify';
+import '../node_modules/react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -40,5 +42,17 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <RouterProvider router={router} />
+    <ToastContainer 
+      position="top-right" 
+      autoClose={3000} 
+      hideProgressBar={false} 
+      newestOnTop={false} 
+      closeOnClick 
+      rtl={false} 
+      pauseOnFocusLoss 
+      draggable 
+      pauseOnHover
+    />
   </Provider>
 );
+

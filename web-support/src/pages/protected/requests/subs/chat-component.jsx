@@ -11,20 +11,20 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../../utils/axiosInstance";
 import wsService from "../../../../services/ws-service";
 import faultService from "../../../../services/fault-service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import { toast } from "react-toastify";
 
-export const ChatComponent = ({ request }) => {
+export const ChatComponent = ({ request, closeChatHandler }) => {
 
     const clientState = useSelector((state)=> state.client)
     const userState = useSelector((state)=> state.user)
+    const faultState = useSelector((state)=> state.fault)
     const [messages, setMessages] = useState([]);
-    const [fault, setFault] = useState(null);
 
     useEffect(() => {
         if(request === null) return;
 
-        faultService.getFault(request.id).then(res => {
-            setFault((prev)=>res)
-        })
         getMessages(request.id).then(res => {
             setMessages(res);
         })
@@ -35,6 +35,7 @@ export const ChatComponent = ({ request }) => {
             onMessage: (msg) => {
                 if (msg.type === 'CHAT' ) {
                     setMessages((prev)=>[...prev, msg])
+                    toast.info(msg.content, { position: toast.POSITION.TOP_RIGHT });
                 }
             }
         });
@@ -71,10 +72,16 @@ export const ChatComponent = ({ request }) => {
             </div>
         );
     }
+    
     return (<>
         <div style={{ position: "relative" }} className="h-10/12">
             <div className="bg-[#1e2939] text-white rounded-t-md px-4 py-2 border-b flex items-center">
-		    	<div className="w-8 h-8 rounded-full bg-gray-400 mr-3" />
+                <div className="flex">
+                    <button className="hover:cursor-pointer mr-2" onClick={()=>{closeChatHandler()}}>
+                        <FontAwesomeIcon icon={'angles-left'} size="xl" />
+				    </button>
+                    <div className="w-8 h-8 rounded-full bg-gray-400 mr-3" />
+                </div>
 		    	<div>
 		    		<div className="text-sm font-semibold">{clientState.client.firstName} {clientState.client.lastName}</div>
 		    		<div className="text-xs">{clientState.client.id}</div>
@@ -98,7 +105,7 @@ export const ChatComponent = ({ request }) => {
                     })}
                 </MessageList>
                 <MessageInput placeholder="Type message here" onSend={(message) => {
-                    wsService.sendMessage(fault.id, fault.clientId, fault.deskSupportId, message);
+                    wsService.sendMessage(faultState.fault.id, faultState.fault.clientId, faultState.fault.deskSupportId, message);
                 }} />
                 </ChatContainer>
             </MainContainer>

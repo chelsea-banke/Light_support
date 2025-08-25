@@ -32,6 +32,7 @@ export interface Fault {
     location: string | null
     createdDate: string
     updateDate: string
+    type: string
 }
 
 export interface Asset {

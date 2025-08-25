@@ -12,9 +12,7 @@ import { Outlet, useLocation, useNavigate, Navigate } from "react-router-dom";
 import lightLogo from "../../../public/light-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import wsService from "../../services/ws-service";
-import { loginUser } from "../../redux/middleware/user-auth";
 import { logoutUser } from "../../redux/middleware/auth";
-import { ToastContainer, toast} from 'react-toastify';
 
 const User = () => {
 
@@ -88,8 +86,8 @@ const User = () => {
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                         <div className="text-right">
-                            <div>John Doe</div>
-                            <div className="text-xs mt-[-5px]">xxxx-xxxx-xxxx</div>
+                            <div>{userState.user.firstName} {userState.user.lastName}</div>
+                            <div className="text-xs mt-[-5px]">{userState.user.matricule}</div>
                         </div>
                         <FontAwesomeIcon icon={faUser} className="text-2xl" />
                     </div>
@@ -117,7 +115,6 @@ const User = () => {
                         </main>
                     </div>
                 </div>
-                <ToastContainer/>
             </div>
         );
     }

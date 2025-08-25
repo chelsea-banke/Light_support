@@ -8,6 +8,8 @@ public class TicketDto {
     private Status status;
     private String fieldSupportId;
     private String faultId;
+    private String description;
+    private String assetId;
 
     public String getId() {
         return id;
@@ -47,5 +49,21 @@ public class TicketDto {
 
     public void setFaultId(String faultId) {
         this.faultId = faultId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
     }
 }

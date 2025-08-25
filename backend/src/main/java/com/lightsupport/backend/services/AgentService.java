@@ -60,7 +60,7 @@ public class AgentService {
     public Boolean createInterventionTicket(CreateTicketDto createTicketDto){
         FaultUpdateDto faultUpdateDto = modelMapper.map(createTicketDto, FaultUpdateDto.class);
         faultUpdateDto.setStatus(Status.PENDING);
-        faultUpdateDto.setType(FaultType.FIELD_INTERVENSION);
+        faultUpdateDto.setType(FaultType.FIELD_INTERVENTION);
         faultService.updateDescription(faultUpdateDto);
         faultService.updateFaultStatus(faultUpdateDto);
         faultService.updateType(faultUpdateDto);

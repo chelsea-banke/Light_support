@@ -6,26 +6,34 @@ import { AppButton } from '../../../components/app-button/app-button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFaults } from '../../../redux/middleware/faults-middleware'
 import { DetailsComponent } from './subs/details-component'
-import axiosInstance from '../../../utils/axiosInstance'
 import { getClient } from '../../../redux/middleware/client-middleware'
+import faultService from '../../../services/fault-service'
+import { toast } from 'react-toastify'
+import { AppModal } from '../../../components/app-modal/app-modal'
+import { getFault } from '../../../redux/middleware/fault-middleware'
 
 export const Requests = () => {
 	const [leftWidth, setLeftWidth] = useState(25) // in %
 	const [middleWidth, setMiddleWidth] = useState(50) // in %
 	const [rightWidth, setRightWidth] = useState(25) // in %
 	const [selectedRequest, setSelectedRequest] = useState(null)
-	const clientState = useSelector((state) => state.client)
 
 	const dispatch = useDispatch()
 	const requests = useSelector((state) => state.faults)
 
 	useEffect(() => {
 		dispatch(getFaults())
+		console.log(requests);
 	}, [])
 
 	const selectRequestHandler = (request) => {
 		dispatch(getClient(request.id))
+		dispatch(getFault(request.id))
 		setSelectedRequest(request)
+	}
+
+	const closeChat = () => {
+		setSelectedRequest(null)
 	}
 
 	// Handle resize drag
@@ -92,7 +100,7 @@ export const Requests = () => {
                     <FontAwesomeIcon icon={'magnifying-glass'} size='x' className='mt-1' />
                     <input type="text" placeholder="Search..." className='focus:outline-none focus:border-blue-500 w-full pl-2' />
                 </div>
-                <ChatComponent request={selectedRequest} />
+                <ChatComponent request={selectedRequest} closeChatHandler={()=>{closeChat()}}/>
 			</div>
 
 			{/* Dragger between Middle and Right */}
@@ -102,7 +110,9 @@ export const Requests = () => {
 			/>
 
 			{/* Right Column */}
-			<DetailsComponent width={rightWidth} request={selectedRequest} />
+			<div className='bg-gray-800 text-white p-6 text-sm space-y-4 overflow-y-auto ml-1 flex flex-col justify-between' style={{ width: `${rightWidth}%` }}>
+				<DetailsComponent request={selectedRequest} />
+			</div>
 		</div>
 	)
 }
