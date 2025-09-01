@@ -64,35 +64,72 @@ public class WebSocketHandler extends TextWebSocketHandler {
         String supportId = json.path("supportId").asText("");
         String faultId = json.path("faultId").asText("");
 
-        if (supportId == null || supportId.isEmpty() || clientId == null || clientId.isEmpty() || Objects.equals(type, "PING")) {
+        if (clientId == null || clientId.isEmpty() || Objects.equals(type, "PING")) {
             System.err.println("[WebSocket] Missing destinations in message: " + message.getPayload());
             return;
         }
 
-        Fault fault = faultRepo.findById(faultId).orElseThrow(()-> new EntityNotFoundException("can't find parent fault for message"));
-        MessageDto messageDto = modelMapper.map(messageRepo
-                .save(new Message(json.path("content").asText(""), fault, MessageSource.valueOf(json.path("source").asText("CLIENT")))),
-                MessageDto.class);
 
-        ObjectNode messageNode = json.deepCopy();
-        messageNode.put("createdDate", messageDto.getCreatedDate().toString());
-        if (messagingService.isConsumerActive("client-"+faultId)) {
-            messageNode.put("type", "CHAT");
-            messagingService.sendMessageToUser("client-"+faultId, mapper.writeValueAsString(messageNode));
+        MessageDto messageDto = messagingService.saveMessage(
+                new MessageDto(
+                        json.path("content").asText(""),
+                        faultId,
+                        MessageSource.valueOf(String.valueOf(MessageSource.valueOf(json.path("source").asText("CLIENT"))))
+                ));
+
+        if (supportId == null || supportId.isEmpty()){
+            ObjectNode messageNode = json.deepCopy();
+            messageNode.put("createdDate", messageDto.getCreatedDate().toString());
+            if (messagingService.isConsumerActive("client-"+faultId)) {
+                messageNode.put("type", "CHAT");
+                messagingService.sendMessageToUser("client-"+faultId, mapper.writeValueAsString(messageNode));
+            }
+            else {
+                ObjectNode alertPayload = json.deepCopy();
+                alertPayload.put("type", "ALERT");
+                messagingService.sendMessageToUser(clientId, mapper.writeValueAsString(alertPayload));
+            }
+
+            messageDto.setContent(messagingService.queryAiAgent(messageDto));
+            messageDto.setSource(MessageSource.AI_AGENT);
+            messageDto = messagingService.saveMessage(messageDto);
+
+            messageNode.put("createdDate", messageDto.getCreatedDate().toString());
+            messageNode.put("content", messageDto.getContent());
+            messageNode.put("source", messageDto.getSource().toString());
+            if (messagingService.isConsumerActive("client-"+faultId)) {
+                messageNode.put("type", "CHAT");
+                messagingService.sendMessageToUser("client-"+faultId, mapper.writeValueAsString(messageNode));
+            }
+            else {
+                ObjectNode alertPayload = json.deepCopy();
+                alertPayload.put("type", "ALERT");
+                messagingService.sendMessageToUser(clientId, mapper.writeValueAsString(alertPayload));
+            }
+
         }
+
         else {
-            ObjectNode alertPayload = json.deepCopy();
-            alertPayload.put("type", "ALERT");
-            messagingService.sendMessageToUser(clientId, mapper.writeValueAsString(alertPayload));
-        }
-        if (messagingService.isConsumerActive("support-"+faultId)) {
-            messageNode.put("type", "CHAT");
-            messagingService.sendMessageToUser("support-"+faultId, mapper.writeValueAsString(messageNode));
-        }
-        else {
-            ObjectNode alertPayload = json.deepCopy();
-            alertPayload.put("type", "ALERT");
-            messagingService.sendMessageToUser(supportId, mapper.writeValueAsString(alertPayload));
+            ObjectNode messageNode = json.deepCopy();
+            messageNode.put("createdDate", messageDto.getCreatedDate().toString());
+            if (messagingService.isConsumerActive("client-"+faultId)) {
+                messageNode.put("type", "CHAT");
+                messagingService.sendMessageToUser("client-"+faultId, mapper.writeValueAsString(messageNode));
+            }
+            else {
+                ObjectNode alertPayload = json.deepCopy();
+                alertPayload.put("type", "ALERT");
+                messagingService.sendMessageToUser(clientId, mapper.writeValueAsString(alertPayload));
+            }
+            if (messagingService.isConsumerActive("support-"+faultId)) {
+                messageNode.put("type", "CHAT");
+                messagingService.sendMessageToUser("support-"+faultId, mapper.writeValueAsString(messageNode));
+            }
+            else {
+                ObjectNode alertPayload = json.deepCopy();
+                alertPayload.put("type", "ALERT");
+                messagingService.sendMessageToUser(supportId, mapper.writeValueAsString(alertPayload));
+            }
         }
         System.out.println("[WebSocket] Message between " + clientId + " and " + supportId);
     }

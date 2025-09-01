@@ -3,7 +3,7 @@ import Chat from "@codsod/react-native-chat";
 import { useLocalSearchParams } from "expo-router";
 import messagingService from "@/services/messaging-service";
 import wsService from "@/services/ws-service";
-import bg from "../../../../../../assets/images/chat-wallpaper.jpg";
+import bg from "../../../../../../assets/images/chat-wallpaper-2.jpg";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import faultService from "@/services/fault-service";
@@ -127,7 +127,7 @@ const ChatScreen = () => {
       senderContainerColor="#cce8ff"
       senderMessageColor="gray"
       showSenderAvatar={false}
-      showReceiverAvatar={true}
+      showReceiverAvatar={false}
       inputBorderColor="#c2e600"
       user={{
         _id: 1,
@@ -143,7 +143,7 @@ const ChatScreen = () => {
       onPressEmoji={() => console.log("Emoji Button Pressed..")}
       showAttachment={true}
       onPressAttachment={() => console.log("Attachment Button Pressed..")}
-      timeContainerColor="red"
+      timeContainerColor="#0d6ca7"
       timeContainerTextColor="white"
       // onEndReached={() => alert("You have reached the end of the page")}
     />

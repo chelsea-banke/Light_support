@@ -4,7 +4,7 @@ import { logoutUser } from '../redux/middleware/auth'
 import { secureStore } from './secure-store'
 import auth from '../services/auth'
 
-export let baseURL = 'http://10.222.4.45:8080/api'; // mutable outside Redux
+export let baseURL = 'http://10.78.194.217:8080/api'; // mutable outside Redux
 
 export const setBaseUrl = (url: string) => {
   baseURL = `http://${url}:8080/api`; // or use HTTPS if needed

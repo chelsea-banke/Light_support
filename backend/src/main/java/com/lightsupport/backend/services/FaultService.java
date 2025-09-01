@@ -82,12 +82,11 @@ public class FaultService {
         return true;
     }
 
-    public Boolean updateFaultStatus(FaultUpdateDto faultStatusUpdateDto){
+    public void updateFaultStatus(FaultUpdateDto faultStatusUpdateDto){
         Fault fault = faultRepo.findById(faultStatusUpdateDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Fault not found"));
         fault.setStatus(faultStatusUpdateDto.getStatus());
         faultRepo.save(fault);
-        return true;
     }
 
     public Boolean updateDescription(FaultUpdateDto faultUpdateDto){
@@ -98,11 +97,20 @@ public class FaultService {
         return true;
     }
 
-    public Boolean updateType(FaultUpdateDto faultUpdateDto){
+    public void updateType(FaultUpdateDto faultUpdateDto){
         Fault fault = faultRepo.findById(faultUpdateDto.getId())
                 .orElseThrow(()-> new EntityNotFoundException("Fault not found"));
         fault.setType(faultUpdateDto.getType());
         faultRepo.save(fault);
-        return true;
     }
+
+    public Fault updateFault(FaultUpdateDto faultUpdateDto) {
+        Fault fault = faultRepo.findById(faultUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Fault not found"));
+
+        // Map only non-null fields from DTO to entity
+        modelMapper.map(faultUpdateDto, fault);
+        return faultRepo.save(fault);
+    }
+
 }

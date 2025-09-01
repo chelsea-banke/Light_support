@@ -9,7 +9,7 @@ interface WSConnection {
     reconnectTimeout: ReturnType<typeof setTimeout> | null;
 }
 
-export let wsBaseURL = 'ws://10.222.4.45:8080/api/ws'; // mutable outside Redux
+export let wsBaseURL = 'ws://10.78.194.217:8080/api/ws'; // mutable outside Redux
 export const setWSBaseUrl = (url: string) => {
   wsBaseURL = `ws://${url}:8080/api/ws`; // or use WSS if needed
 };

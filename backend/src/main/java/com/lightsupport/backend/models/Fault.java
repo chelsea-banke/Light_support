@@ -45,9 +45,9 @@ public class Fault {
     @JoinColumn(name = "id_client", nullable = false)
     private User idClient;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_desk_support", nullable = false)
+    @JoinColumn(name = "id_desk_support")
     private User idDeskSupport;
 
     @Enumerated(EnumType.STRING)

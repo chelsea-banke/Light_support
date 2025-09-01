@@ -22,6 +22,10 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
+        // Skip null values when mapping
+        modelMapper.getConfiguration()
+                .setSkipNullEnabled(true);
+
         // Define the converter
         Converter<User, String> identifierConverter = ctx -> {
             User src = ctx.getSource();

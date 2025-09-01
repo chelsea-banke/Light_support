@@ -92,7 +92,7 @@ const User = () => {
                         <FontAwesomeIcon icon={faUser} className="text-2xl" />
                     </div>
                 </header>
-                <div className="flex h-[93vh] bg-[#d1edff]">
+                <div className="flex h-[93vh] bg-gray-100">
                     {/* Sidebar */}
                     <aside className="bg-[#a8ca38] w-12 flex flex-col justify-between py-4">
                         <div className="flex flex-col items-center gap-6 mt-4">

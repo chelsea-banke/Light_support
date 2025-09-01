@@ -45,4 +45,10 @@ public class FaultController {
         String clientId = authentication.getName();
         return faultService.createFault(clientId, createFaultRequestDto);
     }
+
+    @PostMapping("/update-fault")
+    public ResponseEntity<Fault> updateFault(@RequestBody FaultUpdateDto faultUpdateFto) {
+        Fault updated = faultService.updateFault(faultUpdateFto);
+        return ResponseEntity.ok(updated);
+    }
 }

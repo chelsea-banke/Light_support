@@ -18,7 +18,7 @@ export const RequestsListComponent = ({ requests, selecRequestHandler }) => {
   return (
     <div className="space-y-2 scroll-list request-list-component">
       	{requests.map((request) => (
-					<div className={`px-4 py-2 rounded-md hover:bg-[#d1edff] hover:scale-105 cursor-pointer flex justify-between transition-all ${selectedRequest === request ? activeStyle : 'bg-white'}`}
+					<div className={`px-4 py-2 rounded-md hover:bg-[#d1edff] hover:scale-105 cursor-pointer flex justify-between transition-all ${selectedRequest === request ? activeStyle : 'bg-white'} shadow`}
             onClick={() => selectRequest(request)}>
               <div className="flex gap-2">
                 <div className="border-r-2 pr-3">

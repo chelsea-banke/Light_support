@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Pressable, StyleSheet } from 'react-native'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { useGlobalAlert } from '@/hooks/alert-hook'
@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { getFaults } from '@/redux/middleware/faults-middleware'
 import faultService from '@/services/fault-service'
 import React, { useEffect } from 'react'
+import { BlurView } from 'expo-blur'
 
 export default function faultRequestsScreen() {
   const alert = useGlobalAlert()
@@ -37,7 +38,7 @@ export default function faultRequestsScreen() {
   return (
     <View className="flex-1 bg-white px-4">
       {/* Search & Filter Bar */}
-      <View className="flex-row items-center space-x-2 mb-4 bg-gray-200 rounded-full mt-2">
+      <View className="flex-row items-center space-x-2 mb-1 bg-gray-200 rounded-full mt-2">
         <View className="flex-1 flex-row items-center rounded-md px-3 py-1 mr-1">
           <TextInput
             placeholder="Search..."
@@ -61,28 +62,47 @@ export default function faultRequestsScreen() {
       </TouchableOpacity>
 
       {/* List of faultuests */}
-      <ScrollView className="space-y-3 mx-1">
-        {faultsState.faults.map((fault) => (
-          <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${fault.id}` as any)} key={fault.id}>
-            <View
-              key={fault.id}
-              className="rounded-lg overflow-hidden border-b border-gray-200 my-1 mb-3 bg-gray-100"
-            >
-              <View className="flex-row justify-between items-start mb-1 px-2 pt-1">
-                <Text className="font-semibold text-base text-black w-4/5">
-                  {fault.id.slice(0, 18)}
-                </Text>
-                <Text className="bg-[#8cb600] text-xs text-white font-semibold px-2 rounded-full mt-1">
-                  {fault.status.toLocaleLowerCase()}
-                </Text>
-              </View>
-              <Text className="text-sm text-gray-700 leading-snug bg-gray-200 p-2">
-                {fault.description}
-              </Text>
+      <ScrollView className="relative space-y-3 mx-1">
+        {faultsState.faults.map((fault, idx) => (
+          <View className={`flex-row justify-between w-full my-1 mb-3 gap-1 ${idx == 0 ? 'mt-5' : ''}`} key={fault.id}>
+            <View className='w-1/6'>
+              <Text className='px-5 py-5 bg-gray-500 rounded-full text-white w-full text-center font-bold'>{idx + 1}</Text>
             </View>
-          </Pressable>
+            <Pressable onPress={() => router.push(`/consumer/(nested)/requests/${fault.id}` as any)} key={fault.id} className="flex-1 rounded-lg overflow-hidden border-b border-gray-200 bg-gray-100">
+                <View className="flex-row justify-between items-start mb-1 px-2 pt-1">
+                  <Text className="font-semibold text-base text-black w-4/5">
+                    {fault.id.slice(0, 18)}
+                  </Text>
+                  <Text className="bg-[#8cb600] text-xs text-white font-semibold px-2 rounded-full mt-1">
+                    {fault.status.toLocaleLowerCase()}
+                  </Text>
+                </View>
+                <Text className="text-sm text-gray-700 leading-snug bg-gray-200 p-2">
+                  {fault.description.slice(0, 80)}...
+                </Text>
+            </Pressable>
+          </View>
         ))}
       </ScrollView>
+      {/* <View className='absolute w-[100vw] back-blur backdrop-blur-lg p-5 top-16' /> */}
+      <BlurView
+        style={styles.absolute}
+        intensity={200}
+        className='top-16 h-5'
+      />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  absolute: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    right: 0,
+  }
+});
